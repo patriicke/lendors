@@ -1,10 +1,13 @@
-import { faLocation, faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import Bg_2 from "/assets/bg/bg_02.jpg";
 import Icon_1 from "/icons/icon_01.png";
+import Img_1 from "/assets/img/img_01.jpg";
 const HomePageComponent: React.FC = () => {
   const [amount, setAmount] = useState<number>(1500000);
+  const categories: string[] = ["All", " Sedan", "Sports", "Luxury"];
+  const [currentCategory, setCurrentCategory] = useState<number>(0);
   return (
     <div className="h-[calc(100vh_-_5rem)] min-h-[calc(100vh_-_5rem)] w-full relative">
       <div className="h-[70rem] max-h-[80%] w-full absolute top-0 -z-50">
@@ -98,7 +101,60 @@ const HomePageComponent: React.FC = () => {
           <h1 className="font-bold text-4xl text-center">Featured Vehicles</h1>
           <div className="h-2 w-16 bg-redish"></div>
         </div>
-        <p className="text-xl"> These are one of the best vehicles. Be the first to go with.</p>
+        <p className="text-xl">
+          {" "}
+          These are one of the best vehicles. Be the first to go with.
+        </p>
+      </section>
+      <section className="h-[50em] py-14">
+        <div className="flex items-center justify-center  gap-10">
+          {categories.map((category, index) => (
+            <button
+              className={`text-xl font-bold ${
+                currentCategory == index && "text-redish"
+              } hover:text-redish duration-500`}
+              onClick={() => {
+                setCurrentCategory(index);
+              }}
+              key={index}
+            >
+              {category}
+            </button>
+          ))}
+        </div>
+        <div className="w-full xl:w-[70%] m-auto py-4 flex flex-wrap gap-6 items-center justify-center  transition-all duration-300">
+          {Array(9)
+            .fill("")
+            .map((text, index) => {
+              return (
+                <div
+                  className="w-[25em] h-[25em] py-2 border shadow-lg rounded-md transition-all duration-300"
+                  key={index}
+                >
+                  <h1 className="font-semibold text-xl p-3 ">
+                    2015 Shevrolet Corvette Stingray Z51
+                  </h1>
+                  <div className="relative w-full">
+                    <img src={Img_1} alt="image" className="w-full" />
+                  </div>
+                  <div className="flex justify-between items-center h-[2.4em] w-full">
+                    <span className="flex items-center justify-center w-1/4">
+                      Sports
+                    </span>
+                    <span className="flex items-center justify-center w-1/4">
+                      Auto
+                    </span>
+                    <span className="flex items-center justify-center w-1/4">
+                      2 Passengers
+                    </span>
+                    <span className="flex items-center justify-center w-1/4">
+                      Gasoline
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+        </div>
       </section>
     </div>
   );
