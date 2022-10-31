@@ -5,7 +5,8 @@ module.exports = {
     extend: {
       colors: {
         blueish: "#000C21",
-        redish: "#EA001E"
+        redish: "#EA001E",
+        "blueish-2": "#161829"
       },
       animation: {},
       keyframes: {
