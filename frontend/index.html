@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="shortcut icon" href="/logo.png" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
       rel="stylesheet"
     />
+    <link rel="shortcut icon" href="/favicon.png" />
     <link rel="stylesheet" href="./src/index.css" />
     <title>Lendors</title>
   </head>
@@ -24,6 +24,7 @@
       height: 100vh;
       width: 100vw;
       display: flex;
+      position: absolute;
     }
     .stand {
       width: 25%;
@@ -68,11 +69,11 @@
         transform: rotate(360deg);
       }
     }
-    .body {
-      display: none;
-    }
     .hidden {
       display: none;
+    }
+    body {
+      position: relative;
     }
   </style>
   <body>

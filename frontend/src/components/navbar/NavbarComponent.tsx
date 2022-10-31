@@ -1,6 +1,13 @@
+import {
+  faBarsStaggered,
+  faCartShopping,
+  faSearch,
+  faUser
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Logo from "/logo.png";
+import Logo from "/favicon.png";
 const NavbarComponent = () => {
   const [currentLink, setCurrentLink] = useState<number>(0);
   const links: {
@@ -29,7 +36,7 @@ const NavbarComponent = () => {
     }
   ];
   return (
-    <div className="bg-blueish-2 h-20 w-full flex px-40 items-center justify-between">
+    <div className="bg-blueish-2 h-20 w-full flex px-80 items-center justify-between">
       <div className="flex items-center justify-center gap-3">
         <img src={Logo} alt="Logo" className="w-10 rounded-full bg-white " />
         <h1 className="text-white font-bold text-2xl">Lendors</h1>
@@ -38,14 +45,34 @@ const NavbarComponent = () => {
         {links.map((link, index) => (
           <Link
             to={link.href}
-            className={`${currentLink == index ? "text-redish" : "text-white"}`}
+            key={index}
+            className={`${
+              currentLink == index ? "text-redish" : "text-white"
+            } hover:text-redish duration-500`}
             onClick={() => setCurrentLink(index)}
           >
             {link.title}
           </Link>
         ))}
       </div>
-      <div></div>
+      <div className="text-lg flex gap-8">
+        <FontAwesomeIcon
+          icon={faSearch}
+          className={`text-white hover:text-redish cursor-pointer duration-500`}
+        />
+        <FontAwesomeIcon
+          icon={faCartShopping}
+          className={`text-white hover:text-redish cursor-pointer duration-500`}
+        />
+        <FontAwesomeIcon
+          icon={faUser}
+          className={`text-white hover:text-redish cursor-pointer duration-500`}
+        />
+        <FontAwesomeIcon
+          icon={faBarsStaggered}
+          className={`text-white hover:text-redish cursor-pointer duration500`}
+        />
+      </div>
     </div>
   );
 };
