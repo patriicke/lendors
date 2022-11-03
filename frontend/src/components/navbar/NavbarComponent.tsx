@@ -16,7 +16,6 @@ import { CommonContext } from "../../context";
 const NavbarComponent = () => {
   const user: IUser = useSelector((state: IState) => state.user);
   const [currentLink, setCurrentLink] = useState<number>(0);
-  const navigate = useNavigate();
   const { setLoginPage } = useContext(CommonContext);
   const links: {
     href: string;
