@@ -19,6 +19,7 @@ const HomePageComponent: React.FC = () => {
         />
       </div>
       <div className="w-full h-[75%] flex items-center  justify-center gap-10 z-20 flex-col bg-slate-800 bg-opacity-40">
+      
         <div className="flex flex-col items-center w-full gap-8">
           <h1 className="font-bold text-5xl w-[30%] text-center capitalize text-white">
             {"Lamborghini Aventador LP700-4".toUpperCase()}

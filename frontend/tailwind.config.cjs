@@ -8,9 +8,18 @@ module.exports = {
         redish: "#EA001E",
         "blueish-2": "#161829"
       },
-      animation: {},
+      animation: {
+        show: "show 1s linear"
+      },
       keyframes: {
-        "end-left": {}
+        show: {
+          "0%": {
+            opacity: 0.6
+          },
+          "100%": {
+            opacity: 1
+          }
+        }
       }
     }
   },
