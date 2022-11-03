@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AuthComponent from "./components/auth/AuthComponent";
+import NavbarComponent from "./components/navbar/NavbarComponent";
 import { CommonContext } from "./context";
 import NotFoundPage from "./pages/404/NotFoundPage";
 import AboutPage from "./pages/About/AboutPage";
@@ -22,6 +23,7 @@ const App: React.FC = () => {
       >
         <Router>
           <Provider store={store}>
+            <NavbarComponent />
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/gallery" element={<GalleryPage />} />
