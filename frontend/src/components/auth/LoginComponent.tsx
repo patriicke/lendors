@@ -1,12 +1,24 @@
 import React, { useState } from "react";
+import { userLogin } from "../../hooks";
 
 const LoginComponent: React.FC<{
   setLoginPage: any;
   setSignup: any;
 }> = ({ setLoginPage, setSignup }) => {
   const [passwordShow, setPasswordShow] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    try {
+      e.preventDefault();
+      if (!email || !password) return;
+      userLogin({ email, password });
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
-    <>
+    <form onSubmit={handleSubmit}>
       <p
         tabIndex={0}
         role="heading"
@@ -40,6 +52,10 @@ const LoginComponent: React.FC<{
           role="input"
           type="email"
           className="bg-gray-200 border rounded focus:outline-none text-sm font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
+          placeholder="Email"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setEmail(e.target.value)
+          }
         />
       </div>
       <div className="mt-6  w-full">
@@ -52,6 +68,10 @@ const LoginComponent: React.FC<{
             role="input"
             type={passwordShow ? "text" : "password"}
             className="bg-gray-200 border rounded focus:outline-none text-sm font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
+            placeholder="Enter password"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setPassword(e.target.value)
+            }
           />
           <div className="absolute right-0 mt-2 mr-3 cursor-pointer">
             <svg
@@ -75,7 +95,7 @@ const LoginComponent: React.FC<{
           role="button"
           aria-label="create my account"
           className="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 text-sm font-semibold leading-none text-white focus:outline-none bg-indigo-700 border rounded hover:bg-indigo-600 py-4 w-full"
-          onClick={() => setLoginPage(false)}
+          type="submit"
         >
           LOGIN
         </button>
@@ -87,7 +107,7 @@ const LoginComponent: React.FC<{
         </p>
         <hr className="w-full bg-gray-400  " />
       </div>
-    </>
+    </form>
   );
 };
 
