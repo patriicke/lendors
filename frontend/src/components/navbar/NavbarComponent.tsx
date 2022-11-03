@@ -1,14 +1,19 @@
+import React, { useState } from "react";
 import {
   faBarsStaggered,
   faCartShopping,
   faSearch,
   faUser
 } from "@fortawesome/free-solid-svg-icons";
+import type { IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Logo from "/favicon.png";
+import { useSelector } from "react-redux";
+import { IState } from "../../types/selectorTypes";
+import { IUser } from "../../types/userTypes";
 const NavbarComponent = () => {
+  const user: IUser = useSelector((state: IState) => state.user);
   const [currentLink, setCurrentLink] = useState<number>(0);
   const links: {
     href: string;
@@ -35,13 +40,34 @@ const NavbarComponent = () => {
       href: "/contact"
     }
   ];
+  const icons: {
+    icon: IconDefinition;
+    show: boolean;
+  }[] = [
+    {
+      icon: faSearch,
+      show: true
+    },
+    {
+      icon: faCartShopping,
+      show: user.isLoggedIn
+    },
+    {
+      icon: faUser,
+      show: user.isLoggedIn
+    },
+    {
+      icon: faBarsStaggered,
+      show: true
+    }
+  ];
   return (
-    <div className="bg-blueish-2 h-20 w-full flex px-80 items-center justify-between">
+    <div className="bg-blueish-2 h-20 w-full flex px-4 xl:px-80 items-center justify-between">
       <div className="flex items-center justify-center gap-3">
         <img src={Logo} alt="Logo" className="w-10 rounded-full bg-white " />
         <h1 className="text-white font-bold text-2xl">Lendors</h1>
       </div>
-      <div className="flex items-center justify-center gap-8">
+      <div className="hidden items-center justify-center gap-8 md:flex">
         {links.map((link, index) => (
           <Link
             to={link.href}
@@ -55,23 +81,25 @@ const NavbarComponent = () => {
           </Link>
         ))}
       </div>
-      <div className="text-lg flex gap-8">
-        <FontAwesomeIcon
-          icon={faSearch}
-          className={`text-white hover:text-redish cursor-pointer duration-500`}
-        />
-        <FontAwesomeIcon
-          icon={faCartShopping}
-          className={`text-white hover:text-redish cursor-pointer duration-500`}
-        />
-        <FontAwesomeIcon
-          icon={faUser}
-          className={`text-white hover:text-redish cursor-pointer duration-500`}
-        />
-        <FontAwesomeIcon
-          icon={faBarsStaggered}
-          className={`text-white hover:text-redish cursor-pointer duration500`}
-        />
+      <div className="text-lg flex gap-8 items-center">
+        {icons.map(({ icon, show }, index) => {
+          return (
+            <FontAwesomeIcon
+              icon={icon}
+              className={`text-white hover:text-redish cursor-pointer duration-500 ${
+                !show && "hidden"
+              }`}
+              key={index}
+            />
+          );
+        })}
+        <button
+          className={`text-white text-sm bg-redish hover:bg-red-500 p-[6px] px-2 rounded-sm flex items-center justify-center font-normal ${
+            user.isLoggedIn ? "hidden" : ""
+          }`}
+        >
+          LOGIN
+        </button>
       </div>
     </div>
   );

@@ -13,7 +13,7 @@ const userReducer: any = createSlice({
     login: (state: IUser, { payload }) => {
       state = payload;
     },
-    logout: (state: IUser, { payload }) => {
+    logout: (state: IUser) => {
       state = { isLoggedIn: false, role: ROLE.STANDARD };
     },
     update: (state: IUser, { payload }) => {

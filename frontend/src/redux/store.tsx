@@ -27,11 +27,13 @@
 // export const persistor = persistStore(store);
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import userReducer from "./slices/userSlice";
+// import thunk from "redux-thunk";
 
 const rootReducer = combineReducers({
   user: userReducer
 });
 
 export const store = configureStore({
-  reducer: rootReducer
+  reducer: rootReducer,
+  // middleware: [thunk]
 });
