@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   faBarsStaggered,
   faCartShopping,
@@ -7,14 +7,17 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import type { IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "/favicon.png";
 import { useSelector } from "react-redux";
 import { IState } from "../../types/selectorTypes";
 import { IUser } from "../../types/userTypes";
+import { CommonContext } from "../../context";
 const NavbarComponent = () => {
   const user: IUser = useSelector((state: IState) => state.user);
   const [currentLink, setCurrentLink] = useState<number>(0);
+  const navigate = useNavigate();
+  const { setLoginPage } = useContext(CommonContext);
   const links: {
     href: string;
     title: string;
@@ -97,6 +100,7 @@ const NavbarComponent = () => {
           className={`text-white text-sm bg-redish hover:bg-red-500 p-[6px] px-2 rounded-sm flex items-center justify-center font-normal ${
             user.isLoggedIn ? "hidden" : ""
           }`}
+          onClick={() => setLoginPage(true)}
         >
           LOGIN
         </button>
