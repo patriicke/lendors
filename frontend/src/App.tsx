@@ -19,7 +19,7 @@ const App: React.FC = () => {
       <div
         className={`${
           loginPage && "blur-md select-none cursor-none pointer-events-none"
-        }`}
+        } overflow-auto`}
       >
         <Router>
           <Provider store={store}>

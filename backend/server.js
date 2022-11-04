@@ -5,10 +5,12 @@ const { connect } = require("./config/db/connection");
 const User = require("./models/User");
 const cors = require("cors");
 const corsOptions = require("./config/cors");
+const userRoutes = require("./routes/userRoutes");
 connect();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors(corsOptions));
+app.use("/", userRoutes);
 app.get("/", async (req, res) => {
   try {
     const users = await User.findAll();

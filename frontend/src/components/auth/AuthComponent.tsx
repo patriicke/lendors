@@ -21,7 +21,7 @@ const AuthComponent: React.FC = () => {
       }  duration-200`}
     >
       <div
-        className="bg-white shadow rounded lg:w-1/4  md:w-1/2 w-full p-10  z-50"
+        className="bg-white shadow rounded w-full md:w-1/2 lg:w-2/5 2xl:w-1/4 p-10 z-50 "
         ref={AUTH_ELEMENT}
       >
         {signup ? (

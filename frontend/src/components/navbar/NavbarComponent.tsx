@@ -65,12 +65,12 @@ const NavbarComponent = () => {
     }
   ];
   return (
-    <div className="bg-blueish-2 h-20 w-full flex px-4 xl:px-80 items-center justify-between">
+    <div className="bg-blueish-2 h-20 w-full flex px-4 lg:px-20 2xl:px-60 items-center justify-between">
       <div className="flex items-center justify-center gap-3">
         <img src={Logo} alt="Logo" className="w-10 rounded-full bg-white " />
         <h1 className="text-white font-bold text-2xl">Lendors</h1>
       </div>
-      <div className="hidden items-center justify-center gap-8 md:flex">
+      <div className="hidden items-center justify-center gap-8 lg:flex">
         {links.map((link, index) => (
           <Link
             to={link.href}

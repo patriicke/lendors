@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { userLogin } from "../../hooks";
+import { useLogin } from "../../hooks";
 
 const LoginComponent: React.FC<{
   setLoginPage: any;
@@ -12,7 +12,7 @@ const LoginComponent: React.FC<{
     try {
       e.preventDefault();
       if (!email || !password) return;
-      userLogin({ email, password });
+      useLogin({ email, password });
     } catch (error) {
       console.log(error);
     }
