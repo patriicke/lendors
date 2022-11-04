@@ -66,17 +66,14 @@ const FooterComponent: React.FC = () => {
     "About Us",
     "Guidelines and how to",
     "Quote from the best",
-    "How to start a blog",
-    "Quote from the best",
-    "Guidelines and how to"
+    "How to start a blog"
   ];
 
   const resources: string[] = [
     "Accessibility",
     "Usability",
     "Marketplace",
-    "Design & Dev",
-    "Marketplace"
+    "Design & Dev"
   ];
 
   const links: string[] = [
@@ -87,7 +84,7 @@ const FooterComponent: React.FC = () => {
   ];
   return (
     <Slide direction="up" cascade triggerOnce>
-      <div className="relative flex justify-start md:justify-center md:items-end bg-blueish mt-10">
+      <div className="relative flex justify-start mdjustify-center md:items-end bg-blueish mt-10">
         <div className="flex py-20 px-4 md:px-6 xl:px-20 flex-col justify-start items-start md:justify-center md:items-center relative z-10">
           <div className="flex  flex-col items-start justify-start xl:justify-center xl:space-x-8 xl:flex-row">
             <div className="flex justify-start items-center space-x-4">
