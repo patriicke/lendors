@@ -18,8 +18,8 @@ const App: React.FC = () => {
     <CommonContext.Provider value={{ setLoginPage, loginPage }}>
       <div
         className={`${
-          loginPage && "blur-md select-none cursor-none pointer-events-none"
-        } overflow-auto`}
+          loginPage && "blur-md select-none cursor-none pointer-events-none "
+        } overflow-auto h-screen min-h-screen overflow-x-hidden`}
       >
         <Router>
           <Provider store={store}>
