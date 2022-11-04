@@ -1,6 +1,6 @@
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Bg_2 from "/assets/bg/bg_02.jpg";
 import Icon_1 from "/icons/icon_01.png";
 import Img_1 from "/assets/img/img_01.jpg";
@@ -14,7 +14,10 @@ const HomePageComponent: React.FC = () => {
   const [amount, setAmount] = useState<number>(1500000);
   const categories: string[] = ["All", " Sedan", "Sports", "Luxury"];
   const [currentCategory, setCurrentCategory] = useState<number>(0);
-  const { setLoginPage } = useContext(CommonContext);
+  const { setLoginPage, setCurrentLink } = useContext(CommonContext);
+  useEffect(() => {
+    setCurrentLink(0);
+  }, []);
   return (
     <div className="h-[calc(100vh_-_5rem)] min-h-[calc(100vh_-_5rem)] w-full relative">
       <div className="h-[70rem] max-h-[80%] w-full absolute top-0 -z-50">
