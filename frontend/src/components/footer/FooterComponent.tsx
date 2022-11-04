@@ -160,15 +160,27 @@ const FooterComponent: React.FC = () => {
               })}
             </div>
             <div className="flex  justify-start md:justify-end items-start  w-full md:w-auto md:items-center space-x-6 ">
-              <button className="text-white hover:text-gray-200 w-6">
+              <a
+                href="https://twitter.com/patriicke"
+                className="text-white hover:text-gray-200 w-6"
+                target={"_blank"}
+              >
                 <Twitter />
-              </button>
-              <button className="text-white hover:text-gray-200 w-6">
+              </a>
+              <a
+                href="https://web.facebook.com/rutaboba.isaac"
+                className="text-white hover:text-gray-200 w-6"
+                target={"_blank"}
+              >
                 <Facebook />
-              </button>
-              <button className="text-white hover:text-gray-200 w-6">
+              </a>
+              <a
+                className="text-white hover:text-gray-200 w-6"
+                href="http://github.com/patriicke"
+                target={"_blank"}
+              >
                 <GitHub />
-              </button>
+              </a>
             </div>
           </div>
         </div>
