@@ -7,15 +7,9 @@ const User = sequelize?.define("User", {
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true
   },
-  fname: {
+  fullname: {
     type: DataTypes.STRING,
     allowNull: false
-  },
-  lname: {
-    type: DataTypes.STRING
-  },
-  username: {
-    type: DataTypes.STRING
   },
   role: {
     type: DataTypes.STRING,
@@ -30,14 +24,7 @@ const User = sequelize?.define("User", {
     }
   },
   password: {
-    type: DataTypes.STRING(64),
-    validate: {
-      is: /^[0-9a-f]{64}$/i
-    }
-  },
-  telephone: {
-    type: DataTypes.STRING,
-    unique: true
+    type: DataTypes.STRING(64)
   },
   pendingRequests: {
     type: DataTypes.JSON,
