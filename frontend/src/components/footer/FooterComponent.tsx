@@ -84,7 +84,7 @@ const FooterComponent: React.FC = () => {
   ];
   return (
     <Slide direction="up" cascade triggerOnce>
-      <div className="relative flex justify-start mdjustify-center md:items-end bg-blueish mt-10">
+      <div className="relative flex justify-start md:justify-center md:items-end bg-blueish mt-10">
         <div className="flex py-20 px-4 md:px-6 xl:px-20 flex-col justify-start items-start md:justify-center md:items-center relative z-10">
           <div className="flex  flex-col items-start justify-start xl:justify-center xl:space-x-8 xl:flex-row">
             <div className="flex justify-start items-center space-x-4">
@@ -160,25 +160,13 @@ const FooterComponent: React.FC = () => {
               })}
             </div>
             <div className="flex  justify-start md:justify-end items-start  w-full md:w-auto md:items-center space-x-6 ">
-              <a
-                href="https://twitter.com/patriicke"
-                className="text-white hover:text-gray-200 w-6"
-                target={"_blank"}
-              >
+              <a href="https://twitter.com/patriicke" className="text-white hover:text-gray-200 w-6" target={"_blank"}>
                 <Twitter />
               </a>
-              <a
-                href="https://web.facebook.com/rutaboba.isaac"
-                className="text-white hover:text-gray-200 w-6"
-                target={"_blank"}
-              >
+              <a href="https://web.facebook.com/rutaboba.isaac" className="text-white hover:text-gray-200 w-6" target={"_blank"}>
                 <Facebook />
               </a>
-              <a
-                className="text-white hover:text-gray-200 w-6"
-                href="http://github.com/patriicke"
-                target={"_blank"}
-              >
+              <a className="text-white hover:text-gray-200 w-6" href="http://github.com/patriicke" target={"_blank"}>
                 <GitHub />
               </a>
             </div>

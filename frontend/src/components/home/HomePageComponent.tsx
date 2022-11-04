@@ -105,7 +105,7 @@ const HomePageComponent: React.FC = () => {
       </Slide>
       <section className="h-[3em] w-full"></section>
       <Slide direction="up" cascade triggerOnce>
-        <section className="w-full h-20 flex flex-col items-center  gap-5">
+        <section className="w-full h-20 min-h-20 flex flex-col items-center  gap-5">
           <div className="w-full flex items-center  justify-center gap-3 ">
             <div className="h-2 w-16 bg-redish"></div>
             <h1 className="font-bold text-4xl text-center">
@@ -113,8 +113,7 @@ const HomePageComponent: React.FC = () => {
             </h1>
             <div className="h-2 w-16 bg-redish"></div>
           </div>
-          <p className="text-xl">
-            {" "}
+          <p className="text-xl p-1 text-center">
             These are one of the best vehicles. Be the first to go with.
           </p>
         </section>
