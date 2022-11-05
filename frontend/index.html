@@ -105,10 +105,8 @@
       let standChild = document.querySelectorAll(".stand-child");
       for (i = 0; i < standChild?.length; i++)
         standChild[i]?.classList?.add("stand-child-transition");
-      setTimeout(() => {
-        document.querySelector(".loading-container")?.classList.add("hide");
-        document.querySelector("#root")?.classList.remove("body");
-      }, 500);
+      document.querySelector(".loading-container")?.classList.add("hide");
+      document.querySelector("#root")?.classList.remove("body");
     });
   </script>
 </html>

@@ -1,4 +1,8 @@
-const whitelist = ["https://lendor.vercel.app", "http://localhost:5173" , "http://localhost:5000"];
+const whitelist = [
+  "https://lendor.vercel.app",
+  "http://localhost:5173",
+  "http://localhost:5000"
+];
 const corsOptions = {
   origin: (origin, callback) => {
     if (whitelist.indexOf(origin) !== -1) {
