@@ -1,0 +1,7 @@
+{
+  "projectName": "lendors-backend",
+  "openApiVersion": "2.0",
+  "outFile": "./swagger/swagger.json",
+  "apiRoute": "/docs",
+  "format": "json"
+}

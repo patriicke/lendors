@@ -1,43 +1,37 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 const app = express();
-const PORT = process.env.PORT || 5000;
-const { connect } = require("./config/db/connection");
-const User = require("./models/User");
+const PORT = process.env.PORT || 80;
+const dotenv = require("dotenv");
+const { connectToDB } = require("./utils/database");
+const { Swaggiffy } = require("swaggiffy");
+const carRouter = require("./routes/car.route");
+const userRouter = require("./routes/user.route");
 const cors = require("cors");
-const corsOptions = require("./config/cors");
-const userRoutes = require("./routes/userRoutes");
-connect();
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(cors(corsOptions));
-app.use("/", userRoutes);
-app.get("/", async (req, res) => {
-  try {
-    const users = await User.findAll();
-    res.status(200).json(users);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
+const requestRouter = require("./routes/request.route");
+
+dotenv.config();
+
+app.use(bodyParser.json({ limit: "5mb" }));
+
+connectToDB();
+
+app.use(cors());
+app.use("/request", requestRouter);
+app.use("/car", carRouter);
+app.use("/user", userRouter);
+app.get("/", (req, res) => {
+  return res.status(200).json({ message: "Welcome to the drive server" });
 });
-app.post("/login", async (req, res) => {
-  try {
-    res.status(200).json({ email: req.email });
-  } catch (error) {
-    console.log(error.message);
-  }
+
+app.listen(PORT, (err) => {
+  if (err) console.log("Error running server");
+  console.log(`Server UP on PORT ${PORT}`);
 });
-app.post("/", async (req, res) => {
-  try {
-    const { firstName, lastName } = req.body;
-    const user = await User.create({ firstName, lastName });
-    res.status(200).json(user);
-  } catch (error) {
-    console.log(error);
-  }
+
+app.use((req, res, next) => {
+  res.status(404).json({
+    message: "Route not found"
+  });
 });
-app.get("*", (req, res) => {
-  return "Invalid endpoint";
-});
-app.listen(PORT, () => {
-  console.log(`Server running on PORT: ${PORT}`);
-});
+// new Swaggiffy().setupExpress(app).swaggiffy();
