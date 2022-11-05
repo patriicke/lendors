@@ -1,6 +1,6 @@
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Bg_2 from "/assets/bg/bg_02.jpg";
 import Icon_1 from "/icons/icon_01.png";
 import Img_1 from "/assets/img/img_01.jpg";
@@ -8,12 +8,16 @@ import { Fade, Slide } from "react-awesome-reveal";
 import { CommonContext } from "../../context";
 import { useSelector } from "react-redux";
 import { IUser } from "../../types/userTypes";
+import FooterComponent from "../footer/FooterComponent";
 const HomePageComponent: React.FC = () => {
   const user: IUser = useSelector((state: any) => state?.user);
   const [amount, setAmount] = useState<number>(1500000);
   const categories: string[] = ["All", " Sedan", "Sports", "Luxury"];
   const [currentCategory, setCurrentCategory] = useState<number>(0);
-  const { setLoginPage } = useContext(CommonContext);
+  const { setLoginPage, setCurrentLink } = useContext(CommonContext);
+  useEffect(() => {
+    setCurrentLink(0);
+  }, []);
   return (
     <div className="h-[calc(100vh_-_5rem)] min-h-[calc(100vh_-_5rem)] w-full relative">
       <div className="h-[70rem] max-h-[80%] w-full absolute top-0 -z-50">
@@ -102,9 +106,9 @@ const HomePageComponent: React.FC = () => {
           </button>
         </section>
       </Slide>
-      <section className="h-[10em] w-full"></section>
+      <section className="h-[3em] w-full"></section>
       <Slide direction="up" cascade triggerOnce>
-        <section className="w-full h-20 flex flex-col items-center  gap-5">
+        <section className="w-full h-20 min-h-20 flex flex-col items-center  gap-5">
           <div className="w-full flex items-center  justify-center gap-3 ">
             <div className="h-2 w-16 bg-redish"></div>
             <h1 className="font-bold text-4xl text-center">
@@ -112,15 +116,14 @@ const HomePageComponent: React.FC = () => {
             </h1>
             <div className="h-2 w-16 bg-redish"></div>
           </div>
-          <p className="text-xl">
-            {" "}
+          <p className="text-xl p-1 text-center">
             These are one of the best vehicles. Be the first to go with.
           </p>
         </section>
       </Slide>
-      <section className="h-[50em] py-14">
+      <section className="h-[50em] py-8">
         <Slide direction="up" cascade triggerOnce>
-          <div className="flex items-center justify-center  gap-10">
+          <div className="flex items-center justify-center gap-10">
             {categories.map((category, index) => (
               <button
                 className={`text-xl font-bold ${
@@ -136,32 +139,37 @@ const HomePageComponent: React.FC = () => {
             ))}
           </div>
         </Slide>
-
         <div className="w-full xl:w-[70%] m-auto py-4 flex flex-wrap gap-6 items-center justify-center  transition-all duration-300">
           {Array(9)
             .fill("")
             .map((text, index) => {
               return (
                 <Slide direction="up" key={index} triggerOnce>
-                  <div className="w-[25em] h-[25em] py-2 border shadow-lg rounded-md transition-all duration-300">
-                    <h1 className="font-semibold text-xl p-3 ">
-                      2015 Shevrolet Corvette Stingray Z51
-                    </h1>
-                    <div className="relative w-full">
-                      <img src={Img_1} alt="image" className="w-full" />
+                  <div className="max-w-sm rounded overflow-hidden shadow-lg">
+                    <img
+                      className="w-full"
+                      src={Img_1}
+                      alt="Sunset in the mountains"
+                    />
+                    <div className="px-6 py-4">
+                      <div className="font-bold text-xl mb-2">
+                        The Coldest Sunset
+                      </div>
+                      <p className="text-gray-700 text-base">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing
+                        elit. Voluptatibus quia, nulla! Maiores et perferendis
+                        eaque, exercitationem praesentium nihil.
+                      </p>
                     </div>
-                    <div className="flex justify-between items-center h-[2.4em] w-full">
-                      <span className="flex items-center justify-center w-1/4">
-                        Sports
+                    <div className="px-6 pt-4 pb-2">
+                      <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                        #photography
                       </span>
-                      <span className="flex items-center justify-center w-1/4">
-                        Auto
+                      <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                        #travel
                       </span>
-                      <span className="flex items-center justify-center w-1/4">
-                        2 Passengers
-                      </span>
-                      <span className="flex items-center justify-center w-1/4">
-                        Gasoline
+                      <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                        #winter
                       </span>
                     </div>
                   </div>
@@ -169,6 +177,7 @@ const HomePageComponent: React.FC = () => {
               );
             })}
         </div>
+        <FooterComponent />
       </section>
     </div>
   );

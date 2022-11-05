@@ -14,8 +14,9 @@ import { store } from "./redux/store";
 
 const App: React.FC = () => {
   const [loginPage, setLoginPage] = useState<boolean>(false);
+  const [currentLink, setCurrentLink] = useState<number>(0);
   return (
-    <CommonContext.Provider value={{ setLoginPage, loginPage }}>
+    <CommonContext.Provider value={{ setLoginPage, loginPage, currentLink, setCurrentLink }}>
       <div
         className={`${
           loginPage && "blur-md select-none cursor-none pointer-events-none "
