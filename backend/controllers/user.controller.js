@@ -55,7 +55,7 @@ exports.getUser = async (req, res) => {
     const user = await User().findOne({ where: { id: userId } });
     if (!user)
       return res.status(500).json({ message: "Error getting user data" });
-    return res.status(200).json({ message: "Getting usser successfull", user });
+    return res.status(200).json({ message: "Getting user successfull", user });
   } catch (error) {
     console.log(error);
     return res
