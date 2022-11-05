@@ -1,5 +1,5 @@
 "use strict";
-
+require("dotenv").config();
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   up: (queryInterface, Sequelize) => {
@@ -11,7 +11,8 @@ module.exports = {
         address: "Kigali, Rwanda",
         telephone: "+250790603658",
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        password: process.env.MY_PASSWORD
       }
     ]);
   },

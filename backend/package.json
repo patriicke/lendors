@@ -34,5 +34,8 @@
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.25.3",
     "swaggiffy": "^1.0.5"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.5.2"
   }
 }

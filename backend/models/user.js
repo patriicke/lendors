@@ -16,11 +16,6 @@ const User = sequelize.define(
     names: { type: DataTypes.STRING, allowNull: false },
     email: { type: DataTypes.STRING, allowNull: false },
     address: { type: DataTypes.STRING, allowNull: false },
-    joined: {
-      type: DataTypes.INTEGER,
-      defautValue: Date.now(),
-      allowNull: false
-    },
     telephone: { type: DataTypes.STRING, allowNull: false },
     role: { type: DataTypes.STRING, defautValue: "user", allowNull: false },
     password: { type: DataTypes.STRING, allowNull: false }

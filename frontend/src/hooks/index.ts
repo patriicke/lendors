@@ -4,7 +4,7 @@ import api from "../api";
 //Login hook
 export const useLogin = async (user: { email: string; password: string }) => {
   try {
-    const request = await api.post("/login", user);
+    const request = await api.post("/user/login", user);
     const response = request.data;
     console.log(response);
   } catch (error: any) {
@@ -19,16 +19,18 @@ export const useSignup = async (
     email: string;
     confirmPassword: string;
     password: string;
-    fullname: string;
+    names: string;
+    address: string;
+    telephone: string;
   },
   setError: any
 ) => {
   try {
-    const request = await api.post("/signup", user);
+    const request = await api.post("/user/new", user);
     const response = await request.data;
     console.log(response);
   } catch (error: any) {
-    setError(error.response.data);
+    // setError(error.response.data);
     console.log(error);
   }
 };
