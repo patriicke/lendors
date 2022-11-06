@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import api from "../../api";
 import { login } from "../../redux/slices/userSlice";
-import { IUser } from "../../types/userTypes";
 const LoginComponent: React.FC<{
   setLoginPage: any;
   setSignup: any;
