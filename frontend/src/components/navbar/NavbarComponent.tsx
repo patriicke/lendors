@@ -14,7 +14,8 @@ import { IState } from "../../types/selectorTypes";
 import { IUser } from "../../types/userTypes";
 import { CommonContext } from "../../context";
 const NavbarComponent = () => {
-  const user: IUser = useSelector((state: IState) => state.userSlice);
+  const userSlice = useSelector((state: IState) => state.userSlice);
+  const user: IUser = userSlice.user;
   const { currentLink, setCurrentLink } = useContext(CommonContext);
   const navigate = useNavigate();
   const { setLoginPage } = useContext(CommonContext);
@@ -53,11 +54,11 @@ const NavbarComponent = () => {
     },
     {
       icon: faCartShopping,
-      show: user.isLoggedIn
+      show: userSlice.isLoggedIn
     },
     {
       icon: faUser,
-      show: user.isLoggedIn
+      show: userSlice.isLoggedIn
     },
     {
       icon: faBarsStaggered,
@@ -98,7 +99,7 @@ const NavbarComponent = () => {
         })}
         <button
           className={`text-white text-sm bg-redish hover:bg-red-500 p-[6px] px-2 rounded-sm flex items-center justify-center font-normal ${
-            user.isLoggedIn ? "hidden" : ""
+            userSlice.isLoggedIn ? "hidden" : ""
           }`}
           onClick={() => setLoginPage(true)}
         >
