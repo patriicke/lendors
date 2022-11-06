@@ -29,13 +29,15 @@ const SignupComponent: React.FC<{
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
-  const [fullname, setFullname] = useState<string>("");
+  const [names, setNames] = useState<string>("");
+  const [address, setAddress] = useState<string>("");
+  const [telephone, setTelephone] = useState<string>("");
   const [error, setError] = useState<string>("");
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
-      if (!email || !confirmPassword || !fullname || !password) return;
-      useSignup({ email, confirmPassword, fullname, password }, setError);
+      if (!email || !confirmPassword || !names || !password) return;
+      // useSignup({ email, confirmPassword, names, password, address, telephone }, setError);
     } catch (error) {
       console.log(error);
     }
@@ -73,7 +75,7 @@ const SignupComponent: React.FC<{
           type="text"
           className="bg-gray-200 border rounded focus:outline-none text-sm font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setFullname(e.target.value);
+            setNames(e.target.value);
             setError("");
           }}
         />
@@ -89,6 +91,36 @@ const SignupComponent: React.FC<{
           className="bg-gray-200 border rounded focus:outline-none text-sm font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setEmail(e.target.value);
+            setError("");
+          }}
+        />
+      </div>
+      <div>
+        <label className="text-sm font-medium leading-none text-gray-800">
+          Your Address
+        </label>
+        <input
+          aria-label="enter location"
+          role="input"
+          type="text"
+          className="bg-gray-200 border rounded focus:outline-none text-sm font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            setAddress(e.target.value);
+            setError("");
+          }}
+        />
+      </div>
+      <div>
+        <label className="text-sm font-medium leading-none text-gray-800">
+          Telephone
+        </label>
+        <input
+          aria-label="enter location"
+          role="input"
+          type="tel"
+          className="bg-gray-200 border rounded focus:outline-none text-sm font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            setTelephone(e.target.value);
             setError("");
           }}
         />

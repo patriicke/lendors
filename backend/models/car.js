@@ -24,6 +24,8 @@ const Car = sequelize.define(
   {}
 );
 
+
+
 //registerSchema('Car', sequelize.createSchema('Car'), { orm: 'sequelize' });
 
 module.exports = () => {

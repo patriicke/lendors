@@ -10,7 +10,8 @@ import { useSelector } from "react-redux";
 import { IUser } from "../../types/userTypes";
 import FooterComponent from "../footer/FooterComponent";
 const HomePageComponent: React.FC = () => {
-  const user: IUser = useSelector((state: any) => state?.user);
+  const userSlice = useSelector((state: any) => state?.userSlice);
+  const user: IUser = userSlice.user;
   const [amount, setAmount] = useState<number>(1500000);
   const categories: string[] = ["All", " Sedan", "Sports", "Luxury"];
   const [currentCategory, setCurrentCategory] = useState<number>(0);
@@ -46,7 +47,7 @@ const HomePageComponent: React.FC = () => {
             <button
               className="bg-redish text-white flex items-center justify-center gap-3 px-14 py-4 mt-7 rounded-md font-bold text-xl hover:bg-red-800 duration-300"
               onClick={() => {
-                !user?.isLoggedIn ? setLoginPage(true) : null;
+                !userSlice?.isLoggedIn ? setLoginPage(true) : null;
               }}
             >
               <span>BOOK NOW</span>

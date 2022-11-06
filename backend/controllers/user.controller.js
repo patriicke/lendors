@@ -11,6 +11,7 @@ exports.createAccount = async (req, res) => {
   try {
     const { names, email, address, telephone, password } = req.body;
     const joined = Date.now();
+    console.log(req.body)
     const hashedPassword = await bcrypt.hash(password, 8);
     const user = await User().create({
       names,
@@ -26,7 +27,7 @@ exports.createAccount = async (req, res) => {
       .status(200)
       .json({ message: "Account created successfully", user });
   } catch (error) {
-    console.log(error.errors[0].message);
+    console.log(error);
     return res.status(500).json({ message: error.errors[0].message });
   }
 };
@@ -55,7 +56,7 @@ exports.getUser = async (req, res) => {
     const user = await User().findOne({ where: { id: userId } });
     if (!user)
       return res.status(500).json({ message: "Error getting user data" });
-    return res.status(200).json({ message: "Getting usser successfull", user });
+    return res.status(200).json({ message: "Getting user successfull", user });
   } catch (error) {
     console.log(error);
     return res
