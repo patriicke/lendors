@@ -8,17 +8,21 @@ const User = sequelize.define(
   "User",
   {
     id: {
-      type: DataTypes.STRING,
+      type: DataTypes.UUID,
       allowNull: false,
-      defaultValue: v4(),
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true
     },
     names: { type: DataTypes.STRING, allowNull: false },
-    email: { type: DataTypes.STRING, allowNull: false },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
     address: { type: DataTypes.STRING, allowNull: false },
-    telephone: { type: DataTypes.STRING, allowNull: false },
+    telephone: { type: DataTypes.STRING, allowNull: false, unique: true },
     role: { type: DataTypes.STRING, defautValue: "user", allowNull: false },
-    password: { type: DataTypes.STRING, allowNull: false }
+    password: { type: DataTypes.STRING, allowNull: false },
   },
   {}
 );

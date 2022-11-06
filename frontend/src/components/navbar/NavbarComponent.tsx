@@ -14,7 +14,7 @@ import { IState } from "../../types/selectorTypes";
 import { IUser } from "../../types/userTypes";
 import { CommonContext } from "../../context";
 const NavbarComponent = () => {
-  const user: IUser = useSelector((state: IState) => state.user);
+  const user: IUser = useSelector((state: IState) => state.userSlice);
   const { currentLink, setCurrentLink } = useContext(CommonContext);
   const navigate = useNavigate();
   const { setLoginPage } = useContext(CommonContext);

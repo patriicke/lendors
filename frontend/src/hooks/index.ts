@@ -1,29 +1,20 @@
-import { AxiosError } from "axios";
 import api from "../api";
-
-//Login hook
-export const useLogin = async (user: { email: string; password: string }) => {
-  try {
-    const request = await api.post("/user/login", user);
-    const response = request.data;
-    console.log(response);
-  } catch (error: any) {
-    console.log(error.message);
-  }
-};
 
 //Signup hook
 
 export const useSignup = async (
   user: {
+    id: string;
+    names: string;
     email: string;
+    address: string;
     confirmPassword: string;
     password: string;
-    names: string;
-    address: string;
     telephone: string;
   },
-  setError: any
+  setError: any,
+  login: any,
+  dispatch: any
 ) => {
   try {
     const request = await api.post("/user/new", user);

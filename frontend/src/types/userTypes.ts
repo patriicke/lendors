@@ -1,17 +1,14 @@
 export enum ROLE {
   ADMIN = "admin",
-  STANDARD = "standard"
+  USER = "user"
 }
 
 export interface IUser {
-  isLoggedIn: boolean;
-  role: ROLE.STANDARD;
   id?: string;
-  fname?: string;
-  lname?: string;
-  usename?: string;
+  names?: string;
   email?: string;
   telephone?: string;
+  token?: string
   pendingRequests?: {
     carId: string;
   }[];

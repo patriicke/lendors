@@ -1,18 +1,24 @@
 import React, { useState } from "react";
-import { useLogin } from "../../hooks";
-
+import { useDispatch } from "react-redux";
+import api from "../../api";
+import { login } from "../../redux/slices/userSlice";
+import { IUser } from "../../types/userTypes";
 const LoginComponent: React.FC<{
   setLoginPage: any;
   setSignup: any;
 }> = ({ setLoginPage, setSignup }) => {
+  const dispatch = useDispatch();
   const [passwordShow, setPasswordShow] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
+  const [error, setError] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
       if (!email || !password) return;
-      useLogin({ email, password });
+      const request: any = await api.post("/user/login", { email, password });
+      const response = request.data;
+      dispatch(login(response.user));
     } catch (error) {
       console.log(error);
     }

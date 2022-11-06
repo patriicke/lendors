@@ -37,7 +37,7 @@ const SignupComponent: React.FC<{
     try {
       e.preventDefault();
       if (!email || !confirmPassword || !names || !password) return;
-      useSignup({ email, confirmPassword, names, password, address, telephone }, setError);
+      // useSignup({ email, confirmPassword, names, password, address, telephone }, setError);
     } catch (error) {
       console.log(error);
     }

@@ -1,27 +1,32 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { IUser, ROLE } from "../../types/userTypes";
 
-const initialState: IUser = {
-  isLoggedIn: false,
-  role: ROLE.STANDARD
+const initialState: {
+  user: IUser;
+  isLoggedIn: boolean;
+} = {
+  user: {},
+  isLoggedIn: false
 };
 
-const userReducer: any = createSlice({
+const userSlice: any = createSlice({
   name: "user",
   initialState,
   reducers: {
-    login: (state: IUser, { payload }) => {
-      state = payload;
+    login: (state, { payload }) => {
+      console.log("payload", payload);
+      state.isLoggedIn = true;
+      state.user = { ...payload };
     },
-    logout: (state: IUser) => {
-      state = { isLoggedIn: false, role: ROLE.STANDARD };
+    logout: (state) => {
+      // state.user = { isLoggedIn: false, role: ROLE.USER };
     },
-    update: (state: IUser, { payload }) => {
+    update: (state, { payload }) => {
       state = payload;
     }
   }
 });
 
-export const { login, logout, update } = userReducer.actions;
+export const { login, logout, update } = userSlice.actions;
 
-export default userReducer.reducer;
+export default userSlice.reducer;
