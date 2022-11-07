@@ -64,6 +64,7 @@ const LoginComponent: React.FC<{
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setEmail(e.target.value)
           }
+          value={email}
         />
       </div>
       <div className="mt-6  w-full">
@@ -80,6 +81,7 @@ const LoginComponent: React.FC<{
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setPassword(e.target.value)
             }
+            value={password}
           />
           <div className="absolute right-0 mt-2 mr-3 cursor-pointer">
             <svg
