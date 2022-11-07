@@ -1,27 +1,49 @@
+import { Button } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Dropzone from "react-dropzone";
 import { BiEdit, BiUpload } from "react-icons/bi";
 import { BsX } from "react-icons/bs";
+import { useSelector } from "react-redux";
+import { addCar, uploadImage } from "../../hooks";
+import { IUser } from "../../types/userTypes";
 
 const AddCarComponent = () => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const userSlice = useSelector((state: any) => state?.userSlice);
+  const user: IUser = userSlice.user;
   useEffect(() => {
     document.title = "Add New Car | Drive";
   }, []);
-
   const [carInfo, setCarInfo] = useState<any>({
     name: "",
     imageStr: "",
+    brand: "",
     isUrl: false,
     description: "",
     price: null,
     currency: "USD"
   });
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(carInfo);
+    try {
+      setLoading(true);
+      if (!carInfo.imageStr) return;
+      const url = await uploadImage(carInfo.imageStr);
+      addCar(
+        `${user.token}`,
+        carInfo.name,
+        carInfo.price,
+        carInfo.brand,
+        carInfo.currency,
+        await url,
+        carInfo.description
+      );
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
-
   const previewFile = () => {
     const input: any = document.querySelector("#carImage");
     const file = input.files[0];
@@ -32,7 +54,6 @@ const AddCarComponent = () => {
     });
     reader.readAsDataURL(file);
   };
-
   const onDrop = (acceptedFiles: any) => {
     if (acceptedFiles.length > 0) {
       const reader = new FileReader();
@@ -42,7 +63,6 @@ const AddCarComponent = () => {
       reader.readAsDataURL(acceptedFiles[0]);
     }
   };
-
   return (
     <div className="w-screen flex items-center justify-center flex-col">
       <div className="form mt-2 w-full h-fit flex flex-col px-4 md:px-12">
@@ -60,6 +80,15 @@ const AddCarComponent = () => {
                 type="text"
                 placeholder="Car Name"
               />
+              <input
+                onChange={(e) => {
+                  setCarInfo({ ...carInfo, brand: e.target.value });
+                }}
+                className="my-2 h-12 font-poppins border-2 outline-none border-drive-blue p-2 rounded w-full"
+                type="text"
+                placeholder="Car Brand"
+              />
+
               <input
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setCarInfo({ ...carInfo, price: e.target.value });
@@ -88,15 +117,18 @@ const AddCarComponent = () => {
                 placeholder="Description"
                 className="font-poppins p-2 box-border w-full resize-none border-2 my-2 rounded border-drive-blue"
               ></textarea>
-              <button
-                type="submit"
-                className="hover:animate-ring bg-drive-blue text-white rounded w-1/4 py-3 cursor-pointer font-poppins mt-4"
-              >
-                Add Car
-              </button>
+              <div className="w-full">
+                <button
+                  type="submit"
+                  className="hover:animate-ring bg-redish rounded disabled:bg-gray-500 w-1/4 py-3 text-white cursor-pointer font-poppins mt-4"
+                  disabled={loading}
+                >
+                  {loading ? "Loading" : "Add Car"}
+                </button>
+              </div>
             </form>
           </div>
-          <div className="p-4 w-1/2 h-[28rem] pt- flex items-center justify-center">
+          <div className="p-4 w-1/2 h-[28rem] flex items-center justify-center">
             {carInfo.imageStr ? (
               <div className="w-full h-full border-4 border-dashed rounded-xl border-slate-500 flex items-center justify-center">
                 <div className="w-4/5 h-4/5 rounded relative flex items-center justify-center">

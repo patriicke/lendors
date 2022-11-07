@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -9,9 +9,16 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { TablePagination } from "@mui/material";
 import { BiTrash } from "react-icons/bi";
-import { customers } from "../../utils/sampledata";
+import { CommonContext } from "../../context";
+import { deleteUserByAdmin } from "./../../hooks";
+import { useSelector } from "react-redux";
+import { IUser } from "../../types/userTypes";
 
 const AllCustomerComponent = () => {
+  const userSlice = useSelector((state: any) => state.userSlice);
+  const user: IUser = userSlice.user;
+  const { users } = useContext(CommonContext);
+  const customers = users;
   useEffect(() => {
     document.title = "Admin | Customers";
   }, []);
@@ -73,14 +80,19 @@ const AllCustomerComponent = () => {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => (
                     <StyledTableRow key={row.id + Math.random()}>
-                      <StyledTableCell>{row.names}</StyledTableCell>
+                      <StyledTableCell>
+                        {row.names} {user.role == "admin" && "(Admin)"}
+                      </StyledTableCell>
                       <StyledTableCell>{row.email}</StyledTableCell>
-                      <StyledTableCell>{row.phone}</StyledTableCell>
+                      <StyledTableCell>{row.telephone}</StyledTableCell>
                       <StyledTableCell>{row.address}</StyledTableCell>
                       <StyledTableCell className="flex items-center justify-center">
                         <button
                           title="Delete"
                           className="delete p-2 hover:rotate-12 rounded-full bg-red-600 text-white"
+                          onClick={() =>
+                            deleteUserByAdmin(`${user?.token}`, row.id)
+                          }
                         >
                           <BiTrash size={20} />
                         </button>

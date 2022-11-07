@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -9,8 +9,8 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { TablePagination } from "@mui/material";
 import { BiTrash } from "react-icons/bi";
-import { requests } from "../../utils/sampledata";
 import { BsCheck2 } from "react-icons/bs";
+import { CommonContext } from "../../context";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -32,10 +32,13 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   }
 }));
 
-const AllCarsComponent = () => {
-  const rows = requests;
+const AllCarsComponent: React.FC = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const { cars } = useContext(CommonContext);
+  const rows = cars?.sort((a: any, b: any) => {
+    return (new Date(b?.createdAt) as any) - (new Date(a?.createdAt) as any);
+  });
 
   useEffect(() => {
     document.title = "Admin | Cars ";
@@ -55,15 +58,8 @@ const AllCarsComponent = () => {
     setPage(0);
   };
 
-  const columns = [
-    "Car Name",
-    "Customer Name",
-    "Status",
-    "Price",
-    "Start Date",
-    "End Date",
-    "Actions"
-  ];
+  const columns = ["Car Name", "Brand", "Price", "Currency", "Actions"];
+  console.log(cars);
 
   return (
     <div className="w-full  flex flex-col mt-2 px-4 lg:px-12 items-center justify-start">
@@ -80,14 +76,12 @@ const AllCarsComponent = () => {
             <TableBody>
               {rows
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => (
+                .map((row: any) => (
                   <StyledTableRow key={row.id + Math.random()}>
-                    <StyledTableCell>{row.carId}</StyledTableCell>
-                    <StyledTableCell>{row.customerId}</StyledTableCell>
-                    <StyledTableCell>{row.status}</StyledTableCell>
+                    <StyledTableCell>{row.name}</StyledTableCell>
+                    <StyledTableCell>{row.brand}</StyledTableCell>
                     <StyledTableCell>{row.price}</StyledTableCell>
-                    <StyledTableCell>{row.startDate}</StyledTableCell>
-                    <StyledTableCell>{row.endDate}</StyledTableCell>
+                    <StyledTableCell>{row.currency}</StyledTableCell>
                     <StyledTableCell className="flex items-center justify-center">
                       <button
                         title="Grant"

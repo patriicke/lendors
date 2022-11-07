@@ -12,7 +12,6 @@ const Car = sequelize.define(
     brand: { type: DataTypes.STRING, allowNull: false },
     description: { type: DataTypes.STRING, allowNull: false },
     imageUrl: { type: DataTypes.STRING, allowNull: false },
-    added: { type: DataTypes.INTEGER, allowNull: false },
     price: { type: DataTypes.INTEGER, allowNull: false },
     isBooked: {
       type: DataTypes.BOOLEAN,
@@ -23,8 +22,6 @@ const Car = sequelize.define(
   },
   {}
 );
-
-
 
 //registerSchema('Car', sequelize.createSchema('Car'), { orm: 'sequelize' });
 
