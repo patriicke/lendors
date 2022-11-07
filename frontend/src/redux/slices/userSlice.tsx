@@ -14,12 +14,12 @@ const userSlice: any = createSlice({
   initialState,
   reducers: {
     login: (state, { payload }) => {
-      console.log("payload", payload);
       state.isLoggedIn = true;
       state.user = { ...payload };
     },
     logout: (state) => {
-      // state.user = { isLoggedIn: false, role: ROLE.USER };
+      state.isLoggedIn = false;
+      state.user = {};
     },
     update: (state, { payload }) => {
       state = payload;

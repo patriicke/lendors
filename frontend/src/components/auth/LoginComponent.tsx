@@ -18,6 +18,9 @@ const LoginComponent: React.FC<{
       const request: any = await api.post("/user/login", { email, password });
       const response = request.data;
       dispatch(login(response.user));
+      setLoginPage(false);
+      setEmail("");
+      setPassword("");
     } catch (error) {
       console.log(error);
     }
@@ -61,6 +64,7 @@ const LoginComponent: React.FC<{
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setEmail(e.target.value)
           }
+          value={email}
         />
       </div>
       <div className="mt-6  w-full">
@@ -77,6 +81,7 @@ const LoginComponent: React.FC<{
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setPassword(e.target.value)
             }
+            value={password}
           />
           <div className="absolute right-0 mt-2 mr-3 cursor-pointer">
             <svg
