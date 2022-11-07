@@ -1,4 +1,6 @@
 import React, { useContext, useEffect } from "react";
+import AboutComponent from "../../components/about/AboutComponent";
+import FooterComponent from "../../components/footer/FooterComponent";
 import { CommonContext } from "../../context";
 
 const AboutPage: React.FC = () => {
@@ -6,7 +8,12 @@ const AboutPage: React.FC = () => {
   useEffect(() => {
     setCurrentLink(3);
   }, []);
-  return <div className="h-[calc(100vh_-_5rem)] w-screen"></div>;
+  return (
+    <div className="h-[calc(100vh_-_5rem)] w-screen">
+      <AboutComponent />
+      <FooterComponent />
+    </div>
+  );
 };
 
 export default AboutPage;
