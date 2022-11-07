@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import api from "../../api";
+import { useLogin } from "../../hooks";
 import { login } from "../../redux/slices/userSlice";
 const LoginComponent: React.FC<{
   setLoginPage: any;
@@ -14,13 +15,8 @@ const LoginComponent: React.FC<{
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
-      if (!email || !password) return;
-      const request: any = await api.post("/user/login", { email, password });
-      const response = request.data;
-      dispatch(login(response.user));
-      setLoginPage(false);
-      setEmail("");
-      setPassword("");
+      if (!email || !password) return setError("Please complete all fields");
+      useLogin({ email, password }, setError, login, dispatch, setLoginPage);
     } catch (error) {
       console.log(error);
     }
@@ -61,9 +57,10 @@ const LoginComponent: React.FC<{
           type="email"
           className="bg-gray-200 border rounded focus:outline-none text-sm font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
           placeholder="Email"
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setEmail(e.target.value)
-          }
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            setEmail(e.target.value);
+            setError("");
+          }}
           value={email}
         />
       </div>
@@ -78,9 +75,10 @@ const LoginComponent: React.FC<{
             type={passwordShow ? "text" : "password"}
             className="bg-gray-200 border rounded focus:outline-none text-sm font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
             placeholder="Enter password"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setPassword(e.target.value)
-            }
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setPassword(e.target.value);
+              setError("");
+            }}
             value={password}
           />
           <div className="absolute right-0 mt-2 mr-3 cursor-pointer">
@@ -100,6 +98,11 @@ const LoginComponent: React.FC<{
           </div>
         </div>
       </div>
+      {error && (
+        <div className="mt-5">
+          <p className="text-redish">{error}</p>
+        </div>
+      )}
       <div className="mt-8">
         <button
           role="button"

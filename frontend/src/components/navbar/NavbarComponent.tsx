@@ -12,7 +12,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Logo from "/favicon.png";
 import { useSelector } from "react-redux";
 import { IState } from "../../types/selectorTypes";
-import { IUser } from "../../types/userTypes";
+import { IUser, ROLE } from "../../types/userTypes";
 import { CommonContext } from "../../context";
 import { useDispatch } from "react-redux";
 import { logout } from "../../redux/slices/userSlice";
@@ -27,6 +27,7 @@ const NavbarComponent: React.FC = () => {
   const [searchElement, setSearchElement] = useState<boolean>(false);
   const [menuDropComponent, setMenuDropComponent] = useState<boolean>(false);
   const DROP_ELEMENT: any = useRef(null);
+  const [searchText, setSearchText] = useState<string>("");
   useEffect(() => {
     const clickEvent = () => {
       if (!DROP_ELEMENT.current?.contains(event?.target))
@@ -58,6 +59,10 @@ const NavbarComponent: React.FC = () => {
     {
       title: "Contact Us",
       href: "/contact"
+    },
+    {
+      title: "Admin",
+      href: "/admin"
     }
   ];
   const icons: {
@@ -81,6 +86,11 @@ const NavbarComponent: React.FC = () => {
       show: true
     }
   ];
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!searchText) return;
+    navigate(`gallery/${searchText}`);
+  };
   return (
     <div className="bg-blueish-2 h-20 w-full flex px-4 lg:px-20 2xl:px-60 items-center justify-between relative">
       <div className="flex items-center justify-center gap-3">
@@ -96,6 +106,7 @@ const NavbarComponent: React.FC = () => {
               currentLink == index ? "text-redish" : "text-white"
             } hover:text-redish duration-500`}
             onClick={() => setCurrentLink(index)}
+            hidden={index == 5 && user?.role != "admin"}
           >
             {link.title}
           </Link>
@@ -165,27 +176,33 @@ const NavbarComponent: React.FC = () => {
                   dispatch(logout());
                 }}
               >
-                Sign out
+                Logout
               </button>
             </div>
           </div>
         )}
       </div>
-      <div
+      <form
         className={`absolute bg-black h-20 z-10 top-full w-full left-0 ${
           searchElement ? "translate-x-0" : "-translate-x-[100%]"
         } w-full opacity-70 flex px-4 lg:px-20 2xl:px-60 items-center justify-between duration-150 ease-in-out`}
+        onSubmit={handleSubmit}
       >
         <input
           type="text"
           className="w-[98%] outline-none bg-inherit text-white text-lg"
-          placeholder="Type here"
+          placeholder="Enter car name"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            setSearchText(e.target.value);
+          }}
         />
-        <FontAwesomeIcon
-          icon={faSearch}
-          className={`text-white hover:text-redish cursor-pointer duration-500 text-lg`}
-        />
-      </div>
+        <button type="submit">
+          <FontAwesomeIcon
+            icon={faSearch}
+            className={`text-white hover:text-redish cursor-pointer duration-500 text-lg`}
+          />
+        </button>
+      </form>
     </div>
   );
 };

@@ -20,18 +20,14 @@ exports.getCars = async (req, res) => {
 
 exports.newCar = async (req, res) => {
   try {
-    const { name, price, brand, decription, currency, imageUrl, description } =
-      req.body;
-    const added = Date.now();
-    const id = `${v4()}-${Math.floor(Math.random() * 9999)}`;
+    const { name, price, brand, currency, imageUrl, description } = req.body;
+    const id = v4();
     const car = await Car().create({
       name,
       brand,
-      description,
       price,
       id,
       imageUrl,
-      added,
       currency,
       description
     });

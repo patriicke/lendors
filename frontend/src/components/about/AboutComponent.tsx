@@ -8,8 +8,8 @@ const AboutComponent: React.FC = () => {
         <div className="flex lg:flex-row flex-col lg:gap-8 sm:gap-10 gap-12">
           <div className="w-full lg:w-6/12">
             <h2 className="w-full font-bold lg:text-4xl text-3xl lg:leading-10 leading-9">
-              We are here to make great design accessible and delightfull for
-              everyone
+              We are here to give you one of the most popular automated
+              affordable and fast cars
             </h2>
             <p className="font-normal text-base leading-6 text-gray-600 mt-6">
               It is a long established fact that a reader will be distracted by
