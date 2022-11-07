@@ -7,7 +7,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { customers, requests } from "../../utils/sampledata";
 import { TablePagination } from "@mui/material";
 import { BiTrash } from "react-icons/bi";
 import { BsCheck2 } from "react-icons/bs";
@@ -33,7 +32,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const CarRequestComponent = () => {
-  const rows = requests;
+  const rows: any = [];
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -80,7 +79,7 @@ const CarRequestComponent = () => {
             <TableBody>
               {rows
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => (
+                .map((row: any) => (
                   <StyledTableRow key={row.id + Math.random()}>
                     <StyledTableCell>{row.carId}</StyledTableCell>
                     <StyledTableCell>{row.customerId}</StyledTableCell>
