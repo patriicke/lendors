@@ -1,5 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { useDispatch } from "react-redux";
+import { CommonContext } from "../../context";
 import { useSignup } from "../../hooks";
+import { login } from "../../redux/slices/userSlice";
 
 export const EyeSVG: React.FC<{ setPasswordShow: any }> = ({
   setPasswordShow
@@ -24,6 +27,8 @@ const SignupComponent: React.FC<{
   setLoginPage: any;
   setSignup: any;
 }> = ({ setSignup }) => {
+  const dispatch = useDispatch();
+  const { setLoginPage } = useContext(CommonContext);
   const [passwordShow, setPasswordShow] = useState<boolean>(false);
   const [cPasswordShow, setCPasswordShow] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
@@ -36,8 +41,15 @@ const SignupComponent: React.FC<{
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
-      if (!email || !confirmPassword || !names || !password) return;
-      // useSignup({ email, confirmPassword, names, password, address, telephone }, setError);
+      if (!email || !confirmPassword || !names || !password)
+        return setError("Please complete all fields");
+      useSignup(
+        { email, confirmPassword, names, telephone, address, password },
+        setError,
+        dispatch,
+        login,
+        setLoginPage
+      );
     } catch (error) {
       console.log(error);
     }

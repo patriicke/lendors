@@ -12,7 +12,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Logo from "/favicon.png";
 import { useSelector } from "react-redux";
 import { IState } from "../../types/selectorTypes";
-import { IUser } from "../../types/userTypes";
+import { IUser, ROLE } from "../../types/userTypes";
 import { CommonContext } from "../../context";
 import { useDispatch } from "react-redux";
 import { logout } from "../../redux/slices/userSlice";
@@ -58,6 +58,10 @@ const NavbarComponent: React.FC = () => {
     {
       title: "Contact Us",
       href: "/contact"
+    },
+    {
+      title: "Admin",
+      href: "/admin"
     }
   ];
   const icons: {
@@ -96,6 +100,7 @@ const NavbarComponent: React.FC = () => {
               currentLink == index ? "text-redish" : "text-white"
             } hover:text-redish duration-500`}
             onClick={() => setCurrentLink(index)}
+            hidden={index == 5 && user?.role != "admin"}
           >
             {link.title}
           </Link>
@@ -165,7 +170,7 @@ const NavbarComponent: React.FC = () => {
                   dispatch(logout());
                 }}
               >
-                Sign out
+                Logout
               </button>
             </div>
           </div>

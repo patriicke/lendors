@@ -11,7 +11,7 @@ exports.createAccount = async (req, res) => {
   try {
     const { names, email, address, telephone, password } = req.body;
     const joined = Date.now();
-    console.log(req.body)
+    console.log(req.body);
     const hashedPassword = await bcrypt.hash(password, 8);
     const user = await User().create({
       names,
@@ -22,10 +22,14 @@ exports.createAccount = async (req, res) => {
       telephone,
       password: hashedPassword
     });
-    console.log(user);
+    const token = jwt.sign(
+      { userId: user.id, isAdmin: false },
+      process.env.JWT_SECRET_KEY,
+      {}
+    );
     return res
       .status(200)
-      .json({ message: "Account created successfully", user });
+      .json({ message: "Account created successfully", user, token });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: error.errors[0].message });
@@ -77,6 +81,7 @@ exports.loginUser = async (req, res) => {
     const token = await jwt.sign(
       { userId: user.id, isAdmin },
       process.env.JWT_SECRET_KEY,
+      {},
       {}
     );
     const returnedUser = { ...user };
