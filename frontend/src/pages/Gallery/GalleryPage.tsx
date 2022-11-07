@@ -3,13 +3,10 @@ import { Slide } from "react-awesome-reveal";
 import FooterComponent from "../../components/footer/FooterComponent";
 import { CommonContext } from "../../context";
 import { CarObject } from "../../types/carTypes";
-import Img_1 from "/assets/img/img_01.jpg";
 const GalleryPage: React.FC = () => {
   const { setCurrentLink, cars } = useContext(CommonContext);
   const categories: string[] = ["All", " Sedan", "Sports", "Luxury"];
   const [currentCars, setCurrentCars] = useState<number>(1);
-  // const cars: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-  const [currentCategory, setCurrentCategory] = useState<number>(0);
   useEffect(() => {
     setCurrentLink(1);
   }, []);
@@ -32,57 +29,8 @@ const GalleryPage: React.FC = () => {
       </Slide>
       <section className="h-[50em] py-8">
         <Slide direction="up" cascade triggerOnce>
-          <div className="flex items-center justify-center gap-10">
-            {categories.map((category, index) => (
-              <button
-                className={`text-xl font-bold ${
-                  currentCategory == index && "text-redish"
-                } hover:text-redish duration-500`}
-                onClick={() => {
-                  setCurrentCategory(index);
-                }}
-                key={index}
-              >
-                {category}
-              </button>
-            ))}
-          </div>
         </Slide>
         <div className="w-full xl:w-[70%] m-auto py-4 flex flex-wrap gap-6 items-center justify-center  transition-all duration-300">
-          {/* {cars.map((text, index) => {
-            return (
-              <Slide direction="up" key={index} triggerOnce>
-                <div className="max-w-sm rounded overflow-hidden shadow-lg cursor-pointer">
-                  <img
-                    className="w-full"
-                    src={Img_1}
-                    alt="Sunset in the mountains"
-                  />
-                  <div className="px-6 py-4">
-                    <div className="font-bold text-xl mb-2">
-                      The Coldest Sunset
-                    </div>
-                    <p className="text-gray-700 text-base">
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                      Voluptatibus quia, nulla! Maiores et perferendis eaque,
-                      exercitationem praesentium nihil.
-                    </p>
-                  </div>
-                  <div className="px-6 pt-4 pb-2">
-                    <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-                      #photography
-                    </span>
-                    <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-                      #travel
-                    </span>
-                    <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-                      #winter
-                    </span>
-                  </div>
-                </div>
-              </Slide>
-            );
-          })} */}
           {cars?.map((car: CarObject, index: number) => {
             return (
               <Slide direction="up" key={index} triggerOnce>

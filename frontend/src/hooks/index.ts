@@ -1,4 +1,5 @@
 import api from "../api";
+import { CarObject } from "../types/carTypes";
 
 //Login hook
 
@@ -150,6 +151,77 @@ export const uploadImage = async (image: any) => {
     );
     const urlData = await res.json();
     return urlData.secure_url;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const formatDate = (date: Date): string => {
+  return `${date.getFullYear()}-${date.getMonth() + 1}-${
+    date.getDate().toString().length > 1 ? date.getDate() : "0" + date.getDate()
+  }`;
+};
+
+export const deleteCar = async (token: string, carId: string, setCars: any) => {
+  try {
+    const request = await api.delete(`/car/delete/${carId}`, {
+      headers: { authorization: token }
+    });
+    setCars((cars: any) => {
+      return cars.filter((car: CarObject) => {
+        return car.id != carId;
+      });
+    });
+    const response = request.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export interface useCarsObject {
+  search: boolean;
+  query?: string;
+}
+export const useCars = async ({ search, query }: useCarsObject) => {
+  try {
+    const request = await api.get(`/car/${search ? `search/` + query : "all"}`);
+    const response = await request.data;
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export interface UseCarObject {
+  carId: string | undefined;
+}
+
+export const useCar = async ({ carId }: UseCarObject) => {
+  try {
+    const request = await api.get(`/car/details/${carId}`);
+    const response = await request.data;
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const useRequests = async (token: string, { requestData }: any) => {
+  try {
+    const request = await api.post(
+      `/request/new`,
+      { requestData },
+      {
+        headers: {
+          authorization: token
+        }
+      }
+    );
+    const response = await request.data;
+    console.log(response);
+    return response;
   } catch (error) {
     console.log(error);
   }
