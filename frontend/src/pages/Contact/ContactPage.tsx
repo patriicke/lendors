@@ -1,4 +1,6 @@
 import React, { useContext, useEffect } from "react";
+import ContactComponent from "../../components/contact/ContactComponent";
+import FooterComponent from "../../components/footer/FooterComponent";
 import { CommonContext } from "../../context";
 
 const ContactPage: React.FC = () => {
@@ -6,7 +8,12 @@ const ContactPage: React.FC = () => {
   useEffect(() => {
     setCurrentLink(4);
   }, []);
-  return <div className={`h-[calc(100vh_-_5rem)] w-full`}></div>;
+  return (
+    <div className={`h-[calc(100vh_-_5rem)] w-full`}>
+      <ContactComponent/>
+      <FooterComponent />
+    </div>
+  );
 };
 
 export default ContactPage;
