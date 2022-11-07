@@ -18,6 +18,9 @@ const LoginComponent: React.FC<{
       const request: any = await api.post("/user/login", { email, password });
       const response = request.data;
       dispatch(login(response.user));
+      setLoginPage(false);
+      setEmail("");
+      setPassword("");
     } catch (error) {
       console.log(error);
     }
