@@ -5,6 +5,7 @@ export interface IUser {
   names?: string;
   email?: string;
   telephone?: string;
+  address?: string;
   role?: ROLE;
   token?: string;
   pendingRequests?: {

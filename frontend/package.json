@@ -27,7 +27,8 @@
     "react-router-dom": "^6.4.2",
     "react-simple-image-slider": "^2.4.1",
     "redux-persist": "^6.0.0",
-    "redux-thunk": "^2.4.2"
+    "redux-thunk": "^2.4.2",
+    "swiper": "^8.4.4"
   },
   "devDependencies": {
     "@types/react": "^18.0.25",

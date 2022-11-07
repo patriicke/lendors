@@ -22,6 +22,7 @@ import GalleryPage from "./pages/Gallery/GalleryPage";
 import GallerySearchElement from "./pages/GallerySearch/GallerySearchElement";
 import HomePage from "./pages/Home/HomePage";
 import ReviewsPage from "./pages/Review/ReviewsPage";
+import UserPage from "./pages/User/User";
 import { IUser } from "./types/userTypes";
 
 const App = () => {
@@ -68,6 +69,12 @@ const App = () => {
             <Route path="/review" element={<ReviewsPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route
+              path="/account"
+              element={
+                userSlice.isLoggedIn ? <UserPage /> : <Navigate to={"/"} />
+              }
+            />
             {userSlice.isLoggedIn && user.role == "admin" && (
               <>
                 <Route path="/admin" element={<AllCustomersPage />} />
