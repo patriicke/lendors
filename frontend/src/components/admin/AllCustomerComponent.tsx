@@ -57,11 +57,7 @@ const AllCustomerComponent = () => {
 
   return (
     <div>
-      <div className="w-full  flex flex-col mt-24 px-12 items-center justify-start">
-        <span className="font-semibold text-2xl font-poppins my-4 mb-8">
-          All Customers
-        </span>
-
+      <div className="w-full  flex flex-col mt-2 px-4 lg:px-12 items-center justify-start">
         <Paper sx={{ width: "100%", overflow: "hidden" }}>
           <TableContainer sx={{ maxHeight: 440 }}>
             <Table stickyHeader aria-label="sticky table">

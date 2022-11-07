@@ -7,9 +7,9 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { customers, requests } from "../../utils/sampledata";
 import { TablePagination } from "@mui/material";
 import { BiTrash } from "react-icons/bi";
-import { requests } from "../../utils/sampledata";
 import { BsCheck2 } from "react-icons/bs";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -38,7 +38,7 @@ const CarRequestComponent = () => {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   useEffect(() => {
-    document.title = "Admin | Cars ";
+    document.title = "Admin | Requests";
   }, []);
 
   const handleChangePage = (
@@ -66,11 +66,7 @@ const CarRequestComponent = () => {
   ];
 
   return (
-    <div className="w-full  flex flex-col mt-24 px-12 items-center justify-start">
-      <span className="font-semibold text-2xl font-poppins my-4 mb-8">
-        All Requests
-      </span>
-
+    <div className="w-full  flex flex-col mt-5 px-12 items-center justify-start">
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">
@@ -101,7 +97,7 @@ const CarRequestComponent = () => {
                       </button>
                       <button
                         title="Decline"
-                        className="delete p-2 mx-2  hover:rotate-12 rounded-full bg-green-500  text-white"
+                        className="delete p-2 mx-2  hover:rotate-12 rounded-full bg-green-500 text-white"
                       >
                         <BsCheck2 size={20} />
                       </button>

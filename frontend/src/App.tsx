@@ -13,11 +13,9 @@ import { CommonContext } from "./context";
 import NotFoundPage from "./pages/404/NotFoundPage";
 import AboutPage from "./pages/About/AboutPage";
 import AddCarPage from "./pages/Admin/AddCarPage";
-import AdminPage from "./pages/Admin/AdminPage";
 import AllCarsPage from "./pages/Admin/AllCarsPage";
 import AllCustomersPage from "./pages/Admin/AllCustomersPage";
 import CarRequestPage from "./pages/Admin/CarRequestPage";
-import Requests from "./pages/Admin/Requests";
 import ContactPage from "./pages/Contact/ContactPage";
 import GalleryPage from "./pages/Gallery/GalleryPage";
 import HomePage from "./pages/Home/HomePage";
@@ -56,13 +54,9 @@ const App = () => {
             <Route path="/contact" element={<ContactPage />} />
             {userSlice.isLoggedIn && user.role == "admin" && (
               <>
-                <Route path="/admin" element={<AdminPage />} />
-                <Route path="/admin/cars" element={<AddCarPage />}></Route>
-                <Route path="/admin/new/car" element={<AllCarsPage />}></Route>
-                <Route
-                  path="/admin/customers"
-                  element={<AllCustomersPage />}
-                ></Route>
+                <Route path="/admin" element={<AllCustomersPage />} />
+                <Route path="/admin/cars" element={<AllCarsPage />}></Route>
+                <Route path="/admin/new/car" element={<AddCarPage />}></Route>
                 <Route
                   path="/admin/request/all"
                   element={<CarRequestPage />}

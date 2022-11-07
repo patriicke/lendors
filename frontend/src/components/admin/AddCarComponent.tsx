@@ -45,8 +45,8 @@ const AddCarComponent = () => {
 
   return (
     <div className="w-screen flex items-center justify-center flex-col">
-      <div className="form mt-10 w-full h-fit flex flex-col items-center justify-center">
-        <div className="p-6 shadow-xl w-4/5 rounded-lg h-fit flex flex-col md:flex-row items-center justify-center">
+      <div className="form mt-2 w-full h-fit flex flex-col px-4 md:px-12">
+        <div className="md:p-6 shadow-xl w-full xl:w-4/5 rounded-lg h-fit flex flex-col md:flex-row items-center justify-center">
           <div className="w-1/2 flex h-fit flex-col">
             <form
               className="flex flex-col items-center justify-center"
