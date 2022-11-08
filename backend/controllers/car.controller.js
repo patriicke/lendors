@@ -9,7 +9,7 @@ exports.getCars = async (req, res) => {
     if (!cars) return res.status(404).json({ message: "No cars found" });
     return res
       .status(200)
-      .json({ message: "Cars fetched successfully", cars: cars.splice(0, 30) });
+      .json({ message: "Cars fetched successfully", cars});
   } catch (error) {
     console.log(error);
     return res

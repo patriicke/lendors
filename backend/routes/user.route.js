@@ -24,7 +24,7 @@ userRouter.delete(
 );
 userRouter.patch("/update", [checkLoggedIn], updateUser);
 userRouter.get("/details", [checkLoggedIn], getUser);
-userRouter.get("/all", [checkLoggedIn, checkAdminRole], allUsers);
+userRouter.get("/all", allUsers);
 registerDefinition(userRouter, {
   tags: "Users",
   mappedSchema: "User",
