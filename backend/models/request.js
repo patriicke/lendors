@@ -9,13 +9,8 @@ const Request = sequelize.define(
     id: { type: DataTypes.STRING, primaryKey: true, allowNull: false },
     userId: { type: DataTypes.STRING, allowNull: false },
     carId: { type: DataTypes.STRING, allowNull: false },
-    startDate: { type: DataTypes.INTEGER, allowNull: false },
-    endDate: { type: DataTypes.INTEGER, allowNull: false },
-    timeRequested: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: Date.now()
-    },
+    startDate: { type: DataTypes.STRING, allowNull: false },
+    endDate: { type: DataTypes.STRING, allowNull: false },
     status: {
       type: DataTypes.STRING,
       allowNull: false,

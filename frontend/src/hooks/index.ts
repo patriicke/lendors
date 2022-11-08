@@ -208,11 +208,12 @@ export const useCar = async ({ carId }: UseCarObject) => {
   }
 };
 
-export const useRequests = async (token: string, { requestData }: any) => {
+export const useRequests = async (token: string, requestData: any) => {
   try {
+    console.log(requestData);
     const request = await api.post(
       `/request/new`,
-      { requestData },
+      { ...requestData },
       {
         headers: {
           authorization: token
@@ -222,6 +223,40 @@ export const useRequests = async (token: string, { requestData }: any) => {
     const response = await request.data;
     console.log(response);
     return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getRequest = async (token: string, setRequest: any) => {
+  try {
+    const request = await api.get("/request/all", {
+      headers: {
+        authorization: token
+      }
+    });
+    const response = request.data;
+    setRequest(response.requests);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const findCarDetails = (carId: any, cars: any) => {
+  try {
+    return cars.filter((car: any) => {
+      return car.id == carId;
+    })[0];
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const findUserDetails = (userId: any, users: any) => {
+  try {
+    return users.filter((car: any) => {
+      return car.id == userId;
+    })[0];
   } catch (error) {
     console.log(error);
   }

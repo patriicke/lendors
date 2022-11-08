@@ -6,11 +6,14 @@ import { CarObject } from "../../types/carTypes";
 import { faSortDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSelector } from "react-redux";
+import { IUser } from "../../types/userTypes";
 
-const Car: React.FC = () => {
+const CarPage: React.FC = () => {
   const { carId } = useParams();
+  const userSlice = useSelector((state: any) => state?.userSlice);
+  const user: IUser = userSlice.user;
 
-  const [car, setCar] = useState<CarObject>({
+  const [car, setCar] = useState<any>({
     name: "Loading...",
     imageUrl: "",
     currency: "Loading...",
@@ -51,15 +54,13 @@ const Car: React.FC = () => {
     try {
       e.preventDefault();
       setLoading(true);
-      const request = await useRequests({ requestData });
+      const request = await useRequests(`${user.token}`, requestData );
       console.log(request);
       setLoading(false);
     } catch (error) {
       console.log(error);
     }
   };
-
-  const userSlice = useSelector((state: any) => state.userSlice);
   const { isLoggedIn } = userSlice;
 
   return (
@@ -174,4 +175,4 @@ const Car: React.FC = () => {
   );
 };
 
-export default Car;
+export default CarPage;

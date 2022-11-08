@@ -3,7 +3,9 @@ import { Slide } from "react-awesome-reveal";
 import FooterComponent from "../../components/footer/FooterComponent";
 import { CommonContext } from "../../context";
 import { CarObject } from "../../types/carTypes";
+import {useNavigate} from "react-router-dom";
 const GalleryPage: React.FC = () => {
+  const navigate = useNavigate()
   const { setCurrentLink, cars } = useContext(CommonContext);
   const categories: string[] = ["All", " Sedan", "Sports", "Luxury"];
   const [currentCars, setCurrentCars] = useState<number>(1);
@@ -51,7 +53,7 @@ const GalleryPage: React.FC = () => {
                         {car.currency.toUpperCase()}
                       </span>
                     </button>
-                    <button className="p-3 leading-tight text-white bg-redish rounded-r-lg border border-gray-200 hover:bg-red-600 hover:text-white dark:bg-dispatch dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white duration-75">
+                    <button className="p-3 leading-tight text-white bg-redish rounded-r-lg border border-gray-200 hover:bg-red-600 hover:text-white dark:bg-dispatch dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white duration-75" onClick={()=> navigate(`/car/${car.id}`)}>
                       View Details
                     </button>
                   </div>

@@ -10,6 +10,8 @@ exports.newRequest = async (req, res) => {
     console.log(userId);
     const id = `${v4()}-${Math.floor(Math.random() * 9999)}`;
     const { carId, startDate, endDate } = req.body;
+    console.log(req.body)
+    
     const car = await Car().findOne({ where: { id: carId } });
     if (!car) return res.status(400).json({ message: "Car does not exist" });
     if (car.isBooked)
