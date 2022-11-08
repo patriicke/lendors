@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import * as dateFns from "date-fns";
 import { useCar, useCars, useRequests } from "../../hooks";
-import { CarObject } from "../../types/carTypes";
 import { faSortDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSelector } from "react-redux";
@@ -54,7 +53,7 @@ const CarPage: React.FC = () => {
     try {
       e.preventDefault();
       setLoading(true);
-      const request = await useRequests(`${user.token}`, requestData );
+      const request = await useRequests(`${user.token}`, requestData);
       console.log(request);
       setLoading(false);
     } catch (error) {
@@ -162,11 +161,11 @@ const CarPage: React.FC = () => {
             </div>
             <button
               type="submit"
-              className={`px-6 py-3 rounded w-52 my-4 m-auto mt-8  ${
+              className={`px-6 py-3 rounded w-52 my-4 m-auto mt-8 ${
                 loading ? "bg-slate-500" : "bg-redish"
               } text-white`}
             >
-              {loading ? "LOADING" : "FINISH"}
+              {loading ? "LOADING" : "SEND REQUEST"}
             </button>
           </form>
         </div>

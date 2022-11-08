@@ -12,11 +12,12 @@ const LoginComponent: React.FC<{
   const [email, setEmail] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
       if (!email || !password) return setError("Please complete all fields");
-      useLogin({ email, password }, setError, login, dispatch, setLoginPage);
+      useLogin({ email, password }, setError, login, dispatch, setLoginPage, setLoading);
     } catch (error) {
       console.log(error);
     }
@@ -107,8 +108,9 @@ const LoginComponent: React.FC<{
         <button
           role="button"
           aria-label="create my account"
-          className="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 text-sm font-semibold leading-none text-white focus:outline-none bg-indigo-700 border rounded hover:bg-indigo-600 py-4 w-full"
+          className="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 text-sm font-semibold leading-none text-white focus:outline-none bg-indigo-700 border rounded hover:bg-indigo-600 py-4 w-full disabled:bg-slate-600"
           type="submit"
+          disabled={loading}
         >
           LOGIN
         </button>

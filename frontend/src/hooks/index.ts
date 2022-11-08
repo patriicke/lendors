@@ -8,9 +8,11 @@ export const useLogin = async (
   setError: any,
   login: any,
   dispatch: any,
-  setLoginPage: any
+  setLoginPage: any,
+  setLoading: any
 ) => {
   try {
+    setLoading(true);
     const request = await api.post("/user/login", user);
     const response = request.data;
     dispatch(login({ ...response.user, token: response.token }));
@@ -18,6 +20,8 @@ export const useLogin = async (
   } catch (error: any) {
     setError(`${error.response.data.message}`);
     console.log(error.message);
+  } finally {
+    setLoading(false);
   }
 };
 
@@ -35,9 +39,11 @@ export const useSignup = async (
   setError: any,
   dispatch: any,
   login: any,
-  setLoginPage: any
+  setLoginPage: any,
+  setLoading: any
 ) => {
   try {
+    setLoading(true);
     const request = await api.post("/user/new", user);
     const response = await request.data;
     dispatch(login({ ...response.user, token: response.token }));
@@ -45,6 +51,8 @@ export const useSignup = async (
   } catch (error: any) {
     setError(`${error.response.data.message}`);
     console.log(error);
+  } finally {
+    setLoading(false);
   }
 };
 
