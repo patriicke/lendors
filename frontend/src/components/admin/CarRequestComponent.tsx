@@ -12,11 +12,11 @@ import { BiTrash } from "react-icons/bi";
 import { BsCheck2 } from "react-icons/bs";
 import { CommonContext } from "../../context";
 import {
+  acceptRequest,
   findCarDetails,
-  findCarName,
   findUserDetails,
-  findUserName,
-  getRequest
+  getRequest,
+  rejectRequest
 } from "../../hooks";
 import { useSelector } from "react-redux";
 import { IUser } from "../../types/userTypes";
@@ -64,9 +64,6 @@ const CarRequestComponent = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  console.log(requests);
-  console.log(cars);
-  console.log(users);
   const columns = [
     "Car Name",
     "Customer Name",
@@ -78,7 +75,6 @@ const CarRequestComponent = () => {
     "End Date",
     "Actions"
   ];
-
   return (
     <div className="w-full  flex flex-col mt-5 px-12 items-center justify-start">
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
@@ -116,14 +112,16 @@ const CarRequestComponent = () => {
                     <StyledTableCell>{row.endDate}</StyledTableCell>
                     <StyledTableCell className="flex items-center justify-center">
                       <button
-                        title="Grant"
+                        title="Reject"
                         className="delete p-2 mx-2  hover:rotate-12 rounded-full bg-red-600 text-white"
+                        onClick={() => rejectRequest(`${user.token}`, row.id, setRequests)}
                       >
                         <BiTrash size={20} />
                       </button>
                       <button
-                        title="Decline"
+                        title="Grant"
                         className="delete p-2 mx-2  hover:rotate-12 rounded-full bg-green-500 text-white"
+                        onClick={() => acceptRequest(`${user.token}`, row.id, setRequests)}
                       >
                         <BsCheck2 size={20} />
                       </button>

@@ -261,3 +261,56 @@ export const findUserDetails = (userId: any, users: any) => {
     console.log(error);
   }
 };
+
+export const acceptRequest = async (
+  token: string,
+  requestId: string,
+  setRequests: any
+) => {
+  try {
+    const request = await api.get(`/request/grant/${requestId}`, {
+      headers: {
+        authorization: token
+      }
+    });
+    const response = request.data;
+    setRequests((requests: any) => {
+      return requests.map((request: any) => {
+        if (request.id == requestId) {
+          return response.request;
+        } else {
+          return request;
+        }
+      });
+    });
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const rejectRequest = async (
+  token: string,
+  requestId: string,
+  setRequests: any
+) => {
+  try {
+    const request = await api.get(`/request/deny/${requestId}`, {
+      headers: {
+        authorization: token
+      }
+    });
+    const response = request.data;
+    setRequests((requests: any) => {
+      return requests.map((request: any) => {
+        if (request.id == requestId) {
+          return response.request;
+        } else {
+          return request;
+        }
+      });
+    });
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
