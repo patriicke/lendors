@@ -1,4 +1,5 @@
 const express = require("express");
+const Request = require("./../models/request");
 const { registerDefinition } = require("swaggiffy");
 const {
   denyRequest,
@@ -10,6 +11,12 @@ const {
   checkAdminRole
 } = require("./../middlewares/auth.middleware");
 const requestRouter = express.Router();
+
+requestRouter.get("/all", [checkLoggedIn, checkAdminRole], async (req, res) => {
+  res
+    .status(200)
+    .json({ message: "All requests", requests: await Request().findAll() });
+});
 
 requestRouter.get(
   "/grant/:requestId",

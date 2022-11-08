@@ -16,7 +16,7 @@ app.use(bodyParser.json({ limit: "1mb" }));
 
 connectToDB();
 
-app.use(cors());
+app.use(cors(corsOptions));
 
 app.get("/", (req, res) => {
   return res.status(200).json({ message: "Welcome to the lendors server" });

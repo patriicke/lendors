@@ -1,5 +1,5 @@
 const whitelist = [
-  "https://lendor.vercel.app",
+  "https://lendors.vercel.app",
   "http://localhost:5173",
   "http://localhost:5000"
 ];

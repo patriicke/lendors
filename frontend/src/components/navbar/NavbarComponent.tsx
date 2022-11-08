@@ -91,8 +91,9 @@ const NavbarComponent: React.FC = () => {
     if (!searchText) return;
     navigate(`gallery/${searchText}`);
   };
+
   return (
-    <div className="bg-blueish-2 h-20 w-full flex px-4 lg:px-20 2xl:px-60 items-center justify-between relative">
+    <div className="bg-blueish-2 h-20 w-full flex px-4 lg:px-20 2xl:px-60 items-center justify-between relative z-30">
       <div className="flex items-center justify-center gap-3">
         <img src={Logo} alt="Logo" className="w-10 rounded-full bg-white " />
         <h1 className="text-white font-bold text-2xl">Lendors</h1>
@@ -114,7 +115,17 @@ const NavbarComponent: React.FC = () => {
       </div>
       <div className="text-lg flex gap-8 items-center relative">
         {icons.map(({ icon, show }, index) => {
-          return (
+          return index == 2 ? (
+            <Link to={"/account"} key={index}>
+              <FontAwesomeIcon
+                icon={icon}
+                className={`text-white hover:text-redish cursor-pointer duration-500 ${
+                  !show && "hidden"
+                }`}
+                key={index}
+              />
+            </Link>
+          ) : (
             <FontAwesomeIcon
               icon={icon}
               className={`text-white hover:text-redish cursor-pointer duration-500 ${
@@ -139,7 +150,7 @@ const NavbarComponent: React.FC = () => {
         </button>
         {userSlice.isLoggedIn && menuDropComponent && (
           <div
-            className="absolute h-[8.5em] w-[10em] bg-white top-[1.8em] z-10 -right-1 rounded-md"
+            className="absolute h-[8.5em] w-[10em] bg-white top-[1.8em] z-40 -right-1 rounded-md"
             ref={DROP_ELEMENT}
           >
             <div className="py-1" role="none">

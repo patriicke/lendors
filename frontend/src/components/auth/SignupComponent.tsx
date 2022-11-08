@@ -38,6 +38,7 @@ const SignupComponent: React.FC<{
   const [address, setAddress] = useState<string>("");
   const [telephone, setTelephone] = useState<string>("");
   const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
@@ -48,7 +49,8 @@ const SignupComponent: React.FC<{
         setError,
         dispatch,
         login,
-        setLoginPage
+        setLoginPage,
+        setLoading
       );
     } catch (error) {
       console.log(error);
@@ -186,8 +188,9 @@ const SignupComponent: React.FC<{
         <button
           role="button"
           aria-label="create my account"
-          className="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 text-sm font-semibold leading-none text-white focus:outline-none bg-indigo-700 border rounded hover:bg-indigo-600 py-4 w-full"
+          className="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 text-sm font-semibold leading-none text-white focus:outline-none bg-indigo-700 border rounded hover:bg-indigo-600 py-4 w-full disabled:bg-slate-600"
           type="submit"
+          disabled={loading}
         >
           SIGNUP
         </button>

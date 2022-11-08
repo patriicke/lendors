@@ -3,22 +3,22 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useContext, useEffect, useState } from "react";
 import Bg_2 from "/assets/bg/bg_02.jpg";
 import Icon_1 from "/icons/icon_01.png";
-import Img_1 from "/assets/img/img_01.jpg";
 import { Fade, Slide } from "react-awesome-reveal";
 import { CommonContext } from "../../context";
 import { useSelector } from "react-redux";
 import { IUser } from "../../types/userTypes";
 import FooterComponent from "../footer/FooterComponent";
+import { CarObject } from "../../types/carTypes";
+import { useNavigate } from "react-router-dom";
 const HomePageComponent: React.FC = () => {
+  const navigate = useNavigate();
   const userSlice = useSelector((state: any) => state?.userSlice);
-  const user: IUser = userSlice.user;
   const [amount, setAmount] = useState<number>(1500000);
-  const categories: string[] = ["All", " Sedan", "Sports", "Luxury"];
-  const [currentCategory, setCurrentCategory] = useState<number>(0);
-  const { setLoginPage, setCurrentLink } = useContext(CommonContext);
+  const { setLoginPage, setCurrentLink, cars } = useContext(CommonContext);
   useEffect(() => {
     setCurrentLink(0);
   }, []);
+  console.log(cars);
   return (
     <div className="h-[calc(100vh_-_5rem)] min-h-[calc(100vh_-_5rem)] w-full relative">
       <div className="h-[70rem] max-h-[80%] w-full absolute top-0 -z-50">
@@ -47,7 +47,9 @@ const HomePageComponent: React.FC = () => {
             <button
               className="bg-redish text-white flex items-center justify-center gap-3 px-14 py-4 mt-7 rounded-md font-bold text-xl hover:bg-red-800 duration-300"
               onClick={() => {
-                !userSlice?.isLoggedIn ? setLoginPage(true) : null;
+                !userSlice?.isLoggedIn
+                  ? setLoginPage(true)
+                  : navigate("/gallery");
               }}
             >
               <span>BOOK NOW</span>
@@ -89,7 +91,7 @@ const HomePageComponent: React.FC = () => {
               placeholder="City, State or Airport Code"
               className="h-full outline-none bg-gray-200 w-full"
               min={800000}
-              max={45000000}
+              max={20000000}
               step={100000}
               value={amount}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -98,10 +100,10 @@ const HomePageComponent: React.FC = () => {
             />
             <div className="text-white flex justify-between">
               <h1>{new Intl.NumberFormat("en-us").format(amount)} RWF</h1> -
-              <h1>45,000,000 RWF</h1>
+              <h1>20,000,000 RWF</h1>
             </div>
           </div>
-          <button className="bg-redish text-white flex items-center justify-center gap-3 w-[13em] h-14 mt-7 rounded-md font-bold text-xl hover:bg-red-800 duration-300">
+          <button className="bg-redish text-white flex items-center justify-center gap-3 w-[13em] h-14 mt-7 rounded-md font-bold text-xl hover:bg-red-800 duration-300" onClick={()=> navigate("/gallery")}>
             <span>FIND A CAR</span>
             <img src={Icon_1} alt="arrow" />
           </button>
@@ -123,55 +125,45 @@ const HomePageComponent: React.FC = () => {
         </section>
       </Slide>
       <section className="h-[50em] py-8">
-        <Slide direction="up" cascade triggerOnce>
-          <div className="flex items-center justify-center gap-10">
-            {categories.map((category, index) => (
-              <button
-                className={`text-xl font-bold ${
-                  currentCategory == index && "text-redish"
-                } hover:text-redish duration-500`}
-                onClick={() => {
-                  setCurrentCategory(index);
-                }}
-                key={index}
-              >
-                {category}
-              </button>
-            ))}
-          </div>
-        </Slide>
         <div className="w-full xl:w-[70%] m-auto py-4 flex flex-wrap gap-6 items-center justify-center  transition-all duration-300">
-          {Array(9)
-            .fill("")
-            .map((text, index) => {
+          {cars
+            ?.sort((a: any, b: any) => {
+              return (
+                (new Date(b?.createdAt) as any) -
+                (new Date(a?.createdAt) as any)
+              );
+            })
+            .splice(0, 6)
+            .map((car: CarObject, index: number) => {
               return (
                 <Slide direction="up" key={index} triggerOnce>
-                  <div className="max-w-sm rounded overflow-hidden shadow-lg">
+                  <div className="w-96  h-[513px] rounded relative overflow-hidden shadow-lg cursor-pointer">
                     <img
-                      className="w-full"
-                      src={Img_1}
+                      className="w-full h-64"
+                      src={car.imageUrl}
                       alt="Sunset in the mountains"
                     />
                     <div className="px-6 py-4">
-                      <div className="font-bold text-xl mb-2">
-                        The Coldest Sunset
-                      </div>
+                      <div className="font-bold text-xl mb-2">{car.name}</div>
                       <p className="text-gray-700 text-base">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit. Voluptatibus quia, nulla! Maiores et perferendis
-                        eaque, exercitationem praesentium nihil.
+                        {car.description}
                       </p>
                     </div>
-                    <div className="px-6 pt-4 pb-2">
-                      <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-                        #photography
-                      </span>
-                      <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-                        #travel
-                      </span>
-                      <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-                        #winter
-                      </span>
+                    <div className="inline-flex -space-x-px absolute bottom-6 px-2 gap-3">
+                      <button className="p-3 ml-0 leading-tight text-gray-500 bg-white rounded-l-lg border border-gray-200 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white duration-75 flex gap-1">
+                        {new Intl.NumberFormat("es-us").format(
+                          Number(car.price)
+                        )}
+                        <span className="font-bold">
+                          {car.currency.toUpperCase()}
+                        </span>
+                      </button>
+                      <button
+                        className="p-3 leading-tight text-white bg-redish rounded-r-lg border border-gray-200 hover:bg-red-600 hover:text-white dark:bg-dispatch dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white duration-75"
+                        onClick={() => navigate(`/car/${car.id}`)}
+                      >
+                        View Details
+                      </button>
                     </div>
                   </div>
                 </Slide>

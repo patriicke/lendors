@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -10,6 +10,16 @@ import Paper from "@mui/material/Paper";
 import { TablePagination } from "@mui/material";
 import { BiTrash } from "react-icons/bi";
 import { BsCheck2 } from "react-icons/bs";
+import { CommonContext } from "../../context";
+import {
+  acceptRequest,
+  findCarDetails,
+  findUserDetails,
+  getRequest,
+  rejectRequest
+} from "../../hooks";
+import { useSelector } from "react-redux";
+import { IUser } from "../../types/userTypes";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -32,12 +42,14 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const CarRequestComponent = () => {
-  const rows: any = [];
+  const userSlice = useSelector((state: any) => state.userSlice);
+  const user: IUser = userSlice.user;
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
+  const { requests, setRequests, cars, users } = useContext(CommonContext);
   useEffect(() => {
     document.title = "Admin | Requests";
+    getRequest(`${user.token}`, setRequests);
   }, []);
 
   const handleChangePage = (
@@ -46,24 +58,23 @@ const CarRequestComponent = () => {
   ) => {
     setPage(newPage);
   };
-
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
   const columns = [
     "Car Name",
     "Customer Name",
     "Status",
     "Price",
+    "Currency",
+    "Telephone",
     "Start Date",
     "End Date",
     "Actions"
   ];
-
   return (
     <div className="w-full  flex flex-col mt-5 px-12 items-center justify-start">
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
@@ -77,26 +88,40 @@ const CarRequestComponent = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              {requests
+                ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row: any) => (
                   <StyledTableRow key={row.id + Math.random()}>
-                    <StyledTableCell>{row.carId}</StyledTableCell>
-                    <StyledTableCell>{row.customerId}</StyledTableCell>
+                    <StyledTableCell>
+                      {findCarDetails(row.carId, cars)?.name}
+                    </StyledTableCell>
+                    <StyledTableCell>
+                      {findUserDetails(row.userId, users)?.names}
+                    </StyledTableCell>
                     <StyledTableCell>{row.status}</StyledTableCell>
-                    <StyledTableCell>{row.price}</StyledTableCell>
+                    <StyledTableCell>
+                      {findCarDetails(row.carId, cars)?.price}
+                    </StyledTableCell>
+                    <StyledTableCell>
+                      {findCarDetails(row.carId, cars)?.currency}
+                    </StyledTableCell>
+                    <StyledTableCell>
+                      {findCarDetails(row.userId, users)?.telephone}
+                    </StyledTableCell>
                     <StyledTableCell>{row.startDate}</StyledTableCell>
                     <StyledTableCell>{row.endDate}</StyledTableCell>
                     <StyledTableCell className="flex items-center justify-center">
                       <button
-                        title="Grant"
+                        title="Reject"
                         className="delete p-2 mx-2  hover:rotate-12 rounded-full bg-red-600 text-white"
+                        onClick={() => rejectRequest(`${user.token}`, row.id, setRequests)}
                       >
                         <BiTrash size={20} />
                       </button>
                       <button
-                        title="Decline"
+                        title="Grant"
                         className="delete p-2 mx-2  hover:rotate-12 rounded-full bg-green-500 text-white"
+                        onClick={() => acceptRequest(`${user.token}`, row.id, setRequests)}
                       >
                         <BsCheck2 size={20} />
                       </button>
@@ -109,7 +134,7 @@ const CarRequestComponent = () => {
         <TablePagination
           rowsPerPageOptions={[5, 10, 20, 25, 100]}
           component="div"
-          count={rows.length}
+          count={requests.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

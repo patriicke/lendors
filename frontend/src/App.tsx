@@ -22,6 +22,8 @@ import GalleryPage from "./pages/Gallery/GalleryPage";
 import GallerySearchElement from "./pages/GallerySearch/GallerySearchElement";
 import HomePage from "./pages/Home/HomePage";
 import ReviewsPage from "./pages/Review/ReviewsPage";
+import UserPage from "./pages/User/User";
+import CarPage from "./pages/Car/CarPage";
 import { IUser } from "./types/userTypes";
 
 const App = () => {
@@ -30,6 +32,7 @@ const App = () => {
   const [currentAdminLink, setCurrentAdminLink] = useState<number>(0);
   const [users, setUsers] = useState<IUser[]>([]);
   const [cars, setCars] = useState<IUser[]>([]);
+  const [requests, setRequests] = useState<IUser[]>([]);
   const userSlice = useSelector((state: any) => state.userSlice);
   const user: IUser = userSlice.user;
   useEffect(() => {
@@ -48,7 +51,9 @@ const App = () => {
         users,
         setUsers,
         cars,
-        setCars
+        setCars,
+        requests,
+        setRequests
       }}
     >
       <div
@@ -61,13 +66,20 @@ const App = () => {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/gallery" element={<GalleryPage />} />
-            <Route
+            <Route path="/car/:carId" element={<CarPage />} />
+            {/* <Route
               path="/gallery/:carname"
               element={<GallerySearchElement />}
-            />
+            /> */}
             <Route path="/review" element={<ReviewsPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route
+              path="/account"
+              element={
+                userSlice.isLoggedIn ? <UserPage /> : <Navigate to={"/"} />
+              }
+            />
             {userSlice.isLoggedIn && user.role == "admin" && (
               <>
                 <Route path="/admin" element={<AllCustomersPage />} />

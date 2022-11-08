@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { Slide } from "react-awesome-reveal";
 
 const ContactComponent = () => {
+  const [fullname, setFullname] = useState<string>("");
+  const [telephone, setTelephone] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [message, setMessage] = useState<string>("");
   return (
     <Slide direction="up" cascade triggerOnce>
       <section
@@ -99,6 +103,10 @@ const ContactComponent = () => {
                         name="full_name"
                         type="text"
                         className="focus:outline-none focus:border focus:border-indigo-700 font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
+                        value={fullname}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          setFullname(e.target.value)
+                        }
                       />
                     </div>
                   </div>
@@ -116,6 +124,10 @@ const ContactComponent = () => {
                         name="email"
                         type="email"
                         className="focus:outline-none focus:border focus:border-indigo-700 font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          setEmail(e.target.value)
+                        }
+                        value={email}
                       />
                     </div>
                   </div>
@@ -135,6 +147,10 @@ const ContactComponent = () => {
                         name="phone"
                         type="tel"
                         className="focus:outline-none focus:border focus:border-indigo-700 font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          setTelephone(e.target.value)
+                        }
+                        value={telephone}
                       />
                     </div>
                   </div>
@@ -152,7 +168,10 @@ const ContactComponent = () => {
                       className="border-gray-300 border mb-4 rounded py-2 text-sm outline-none resize-none px-3 focus:border focus:border-indigo-700"
                       rows={8}
                       id="message"
-                      defaultValue={""}
+                      onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                        setMessage(e.target.value)
+                      }
+                      value={message}
                     />
                   </div>
                   <button

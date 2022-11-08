@@ -1,36 +1,47 @@
 const { Sequelize } = require("sequelize");
-const { Client } = require("pg");
+const url = require("url");
 const dotenv = require("dotenv");
 dotenv.config();
-
-const databaseUsername = process.env.DATABASE_USERNAME;
-const databasePassword = process.env.DATABASE_PASSWORD;
-const databaseName = process.env.DATABASE_NAME;
-const databaseHost = process.env.DATABASE_HOST;
-
-const client = new Client({
-  user: databaseUsername,
-  password: databasePassword,
-  host: databaseHost,
-  database: "postgres"
-});
-client.connect();
-
-//Check if database exists or not
-
-client.query(`CREATE DATABASE "${databaseName}"`, (err, res) => {
-  client.end();
-});
-
-// const sequelize = new Sequelize('', {}) Sequelize instance
-
+let DATABASE_USERNAME,
+  DATABASE_PASSWORD,
+  DATABASE_NAME,
+  DATABASE_HOST,
+  DATABASE_PORT = 5432;
+if (
+  process.env.NODE_ENV == "development" ||
+  process.env.NODE_ENV == "testing"
+) {
+  DATABASE_USERNAME = process.env.DATABASE_USERNAME;
+  DATABASE_PASSWORD = process.env.DATABASE_PASSWORD;
+  DATABASE_NAME = process.env.DATABASE_NAME;
+  DATABASE_HOST = process.env.DATABASE_HOST;
+} else {
+  const { DATABASE_URL } = process.env;
+  const dbUrl = url.parse(DATABASE_URL);
+  DATABASE_USERNAME = dbUrl.auth.substr(0, dbUrl.auth.indexOf(":"));
+  DATABASE_PASSWORD = dbUrl.auth.substr(
+    dbUrl.auth.indexOf(":") + 1,
+    dbUrl.auth.length
+  );
+  DATABASE_NAME = dbUrl.path.slice(1);
+  DATABASE_HOST = dbUrl.hostname;
+  DATABASE_PORT = dbUrl.port;
+}
 const sequelize = new Sequelize(
-  databaseName,
-  databaseUsername,
-  databasePassword,
+  DATABASE_NAME,
+  DATABASE_USERNAME,
+  DATABASE_PASSWORD,
+
   {
-    host: databaseHost,
-    dialect: "postgres"
+    host: DATABASE_HOST,
+    dialect: "postgres",
+    port: DATABASE_PORT,
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false
+      }
+    }
   }
 );
 
@@ -44,7 +55,7 @@ exports.connectToDB = async () => {
   } catch (error) {
     console.error({
       message: "Unable to connect to the database:",
-      error: error
+      error: error.message
     });
   }
 };

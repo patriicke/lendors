@@ -22,7 +22,7 @@ transporter.verify(function (error, success) {
   }
 });
 
-exports.mailTo = async (email, text, html, subject) => {
+exports.mailTo = async (email, text, html, subject,request) => {
   try {
     const info = await transporter.sendMail({
       from: process.env.EMAIL_USER,

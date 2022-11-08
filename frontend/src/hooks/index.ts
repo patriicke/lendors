@@ -1,4 +1,5 @@
 import api from "../api";
+import { CarObject } from "../types/carTypes";
 
 //Login hook
 
@@ -7,9 +8,11 @@ export const useLogin = async (
   setError: any,
   login: any,
   dispatch: any,
-  setLoginPage: any
+  setLoginPage: any,
+  setLoading: any
 ) => {
   try {
+    setLoading(true);
     const request = await api.post("/user/login", user);
     const response = request.data;
     dispatch(login({ ...response.user, token: response.token }));
@@ -17,6 +20,8 @@ export const useLogin = async (
   } catch (error: any) {
     setError(`${error.response.data.message}`);
     console.log(error.message);
+  } finally {
+    setLoading(false);
   }
 };
 
@@ -34,9 +39,11 @@ export const useSignup = async (
   setError: any,
   dispatch: any,
   login: any,
-  setLoginPage: any
+  setLoginPage: any,
+  setLoading: any
 ) => {
   try {
+    setLoading(true);
     const request = await api.post("/user/new", user);
     const response = await request.data;
     dispatch(login({ ...response.user, token: response.token }));
@@ -44,6 +51,8 @@ export const useSignup = async (
   } catch (error: any) {
     setError(`${error.response.data.message}`);
     console.log(error);
+  } finally {
+    setLoading(false);
   }
 };
 
@@ -150,6 +159,165 @@ export const uploadImage = async (image: any) => {
     );
     const urlData = await res.json();
     return urlData.secure_url;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const formatDate = (date: Date): string => {
+  return `${date.getFullYear()}-${date.getMonth() + 1}-${
+    date.getDate().toString().length > 1 ? date.getDate() : "0" + date.getDate()
+  }`;
+};
+
+export const deleteCar = async (token: string, carId: string, setCars: any) => {
+  try {
+    const request = await api.delete(`/car/delete/${carId}`, {
+      headers: { authorization: token }
+    });
+    setCars((cars: any) => {
+      return cars.filter((car: CarObject) => {
+        return car.id != carId;
+      });
+    });
+    const response = request.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export interface useCarsObject {
+  search: boolean;
+  query?: string;
+}
+export const useCars = async ({ search, query }: useCarsObject) => {
+  try {
+    const request = await api.get(`/car/${search ? `search/` + query : "all"}`);
+    const response = await request.data;
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export interface UseCarObject {
+  carId: string | undefined;
+}
+
+export const useCar = async ({ carId }: UseCarObject) => {
+  try {
+    const request = await api.get(`/car/details/${carId}`);
+    const response = await request.data;
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const useRequests = async (token: string, requestData: any) => {
+  try {
+    console.log(requestData);
+    const request = await api.post(
+      `/request/new`,
+      { ...requestData },
+      {
+        headers: {
+          authorization: token
+        }
+      }
+    );
+    const response = await request.data;
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getRequest = async (token: string, setRequest: any) => {
+  try {
+    const request = await api.get("/request/all", {
+      headers: {
+        authorization: token
+      }
+    });
+    const response = request.data;
+    setRequest(response.requests);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const findCarDetails = (carId: any, cars: any) => {
+  try {
+    return cars.filter((car: any) => {
+      return car.id == carId;
+    })[0];
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const findUserDetails = (userId: any, users: any) => {
+  try {
+    return users.filter((car: any) => {
+      return car.id == userId;
+    })[0];
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const acceptRequest = async (
+  token: string,
+  requestId: string,
+  setRequests: any
+) => {
+  try {
+    const request = await api.get(`/request/grant/${requestId}`, {
+      headers: {
+        authorization: token
+      }
+    });
+    const response = request.data;
+    setRequests((requests: any) => {
+      return requests.map((request: any) => {
+        if (request.id == requestId) {
+          return response.request;
+        } else {
+          return request;
+        }
+      });
+    });
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const rejectRequest = async (
+  token: string,
+  requestId: string,
+  setRequests: any
+) => {
+  try {
+    const request = await api.get(`/request/deny/${requestId}`, {
+      headers: {
+        authorization: token
+      }
+    });
+    const response = request.data;
+    setRequests((requests: any) => {
+      return requests.map((request: any) => {
+        if (request.id == requestId) {
+          return response.request;
+        } else {
+          return request;
+        }
+      });
+    });
+    console.log(response);
   } catch (error) {
     console.log(error);
   }

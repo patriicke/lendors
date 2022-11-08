@@ -9,8 +9,10 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { TablePagination } from "@mui/material";
 import { BiTrash } from "react-icons/bi";
-import { BsCheck2 } from "react-icons/bs";
 import { CommonContext } from "../../context";
+import { deleteCar, formatDate } from "../../hooks";
+import { useSelector } from "react-redux";
+import { IUser } from "../../types/userTypes";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -33,9 +35,11 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const AllCarsComponent: React.FC = () => {
+  const { userSlice } = useSelector((state: any) => state);
+  const user: IUser = userSlice.user;
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const { cars } = useContext(CommonContext);
+  const { cars, setCars } = useContext(CommonContext);
   const rows = cars?.sort((a: any, b: any) => {
     return (new Date(b?.createdAt) as any) - (new Date(a?.createdAt) as any);
   });
@@ -58,7 +62,14 @@ const AllCarsComponent: React.FC = () => {
     setPage(0);
   };
 
-  const columns = ["Car Name", "Brand", "Price", "Currency", "Actions"];
+  const columns = [
+    "Car Name",
+    "Brand",
+    "Price",
+    "Currency",
+    "Created At",
+    "Actions"
+  ];
   console.log(cars);
 
   return (
@@ -81,19 +92,21 @@ const AllCarsComponent: React.FC = () => {
                     <StyledTableCell>{row.name}</StyledTableCell>
                     <StyledTableCell>{row.brand}</StyledTableCell>
                     <StyledTableCell>{row.price}</StyledTableCell>
-                    <StyledTableCell>{row.currency}</StyledTableCell>
+                    <StyledTableCell>
+                      {row.currency.toUpperCase()}
+                    </StyledTableCell>
+                    <StyledTableCell>
+                      {formatDate(new Date(row.createdAt))}
+                    </StyledTableCell>
                     <StyledTableCell className="flex items-center justify-center">
                       <button
-                        title="Grant"
+                        title="Delete"
                         className="delete p-2 mx-2  hover:rotate-12 rounded-full bg-red-600 text-white"
+                        onClick={() =>
+                          deleteCar(`${user.token}`, row.id, setCars)
+                        }
                       >
                         <BiTrash size={20} />
-                      </button>
-                      <button
-                        title="Decline"
-                        className="delete p-2 mx-2  hover:rotate-12 rounded-full bg-green-500  text-white"
-                      >
-                        <BsCheck2 size={20} />
                       </button>
                     </StyledTableCell>
                   </StyledTableRow>
