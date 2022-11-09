@@ -27,7 +27,8 @@ const NavbarComponent: React.FC = () => {
   const user: IUser = userSlice.user;
   const cars: CarObject[] = carsSlice.cars;
   const dispatch = useDispatch();
-  const { currentLink, setCurrentLink } = useContext(CommonContext);
+  const { currentLink, setCurrentLink, setShowCarts, showCarts } =
+    useContext(CommonContext);
   const { setLoginPage } = useContext(CommonContext);
   const [searchElement, setSearchElement] = useState<boolean>(false);
   const [menuDropComponent, setMenuDropComponent] = useState<boolean>(false);
@@ -97,7 +98,7 @@ const NavbarComponent: React.FC = () => {
       show: true
     },
     {
-      icon: faCartShopping,
+      icon: showCarts ? faClose : faCartShopping,
       show: userSlice.isLoggedIn
     },
     {
@@ -152,6 +153,7 @@ const NavbarComponent: React.FC = () => {
               key={index}
               onClick={() => {
                 index == 0 && setSearchElement((cur) => !cur);
+                index == 1 && setShowCarts((cur: boolean) => !cur);
                 index == 3 && setMenuDropComponent(true);
               }}
             />
@@ -252,7 +254,10 @@ const NavbarComponent: React.FC = () => {
           <>
             {foundCars.map((foundCar: CarObject) => {
               return (
-                <div className="py-3 sm:py-4 cursor-pointer border-b-2">
+                <div
+                  className="py-3 sm:py-4 cursor-pointer border-b-2"
+                  key={foundCar.id}
+                >
                   <div className="flex items-center space-x-4">
                     <div className="flex-shrink-0">
                       <img

@@ -7,6 +7,7 @@ import storage from "redux-persist/lib/storage";
 import persistReducer from "redux-persist/es/persistReducer";
 import persistStore from "redux-persist/es/persistStore";
 import requestsReducer from "./slices/requestsSlice";
+import userRequestsReducer from "./slices/userRequestsSlice";
 
 const persitConfig = {
   key: "root",
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
   userSlice: userReducer,
   carsSlice: carsReducer,
   usersSlice: usersReducer,
-  requestsSlice: requestsReducer
+  requestsSlice: requestsReducer,
+  userRequestsSlice: userRequestsReducer
 });
 
 const persistedReducer = persistReducer(persitConfig, rootReducer);

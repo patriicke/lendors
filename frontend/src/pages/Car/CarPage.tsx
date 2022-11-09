@@ -32,7 +32,6 @@ const CarPage: React.FC = () => {
   const getCar = async () => {
     try {
       const request = await useCar({ carId });
-      console.log(request.car);
       setCar(request.car);
     } catch (error) {
       console.log(error);
@@ -49,8 +48,7 @@ const CarPage: React.FC = () => {
     try {
       e.preventDefault();
       setLoading(true);
-      const request = await useRequests(`${user.token}`, requestData);
-      console.log(request);
+      await useRequests(`${user.token}`, requestData);
       setLoading(false);
     } catch (error) {
       console.log(error);

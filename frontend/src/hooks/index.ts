@@ -1,4 +1,5 @@
 import { AnyAsyncThunk } from "@reduxjs/toolkit/dist/matchers";
+import { useEffect, useState } from "react";
 import api from "../api";
 import {
   removeCar,
@@ -7,6 +8,7 @@ import {
   updateCars
 } from "../redux/slices/carsSlice";
 import { updateRequest } from "../redux/slices/requestsSlice";
+import { updateUserRequests } from "../redux/slices/userRequestsSlice";
 
 //Login hook
 
@@ -121,13 +123,11 @@ export const deleteUserByAdmin = async (
 
 //Get cars
 
-export const getCars = async (dispatch: any, isAdmin: boolean) => {
+export const getCars = async (dispatch: any) => {
   try {
     const request = await api.get("/car/all");
     const cars = request.data.cars;
-
-    if (isAdmin) dispatch(updateAllCars(cars));
-
+    dispatch(updateAllCars(cars));
     const filteredCars = cars.filter((car: any) => {
       return !car.isBooked;
     });
@@ -302,6 +302,20 @@ export const getRequest = async (
   }
 };
 
+export const getUserRequests = async (token: string, dispatch: any) => {
+  try {
+    const request = await api.get("/request/user/all", {
+      headers: {
+        authorization: token
+      }
+    });
+    const response = request.data;
+    dispatch(updateUserRequests(response.requests));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const findCarDetails = (carId: any, cars: any) => {
   try {
     return cars.filter((car: any) => {
@@ -369,4 +383,16 @@ export const rejectRequest = async (
   } finally {
     setLoading(false);
   }
+};
+
+export const useScrollPosition = () => {
+  const [scrollPosition, setScrollPostion] = useState<number>(0);
+  useEffect(() => {
+    const updatePosition = () => {
+      setScrollPostion(window.pageYOffset);
+    };
+    document.addEventListener("scroll", updatePosition);
+    return () => window.removeEventListener("scroll", updatePosition);
+  }, []);
+  return scrollPosition;
 };
