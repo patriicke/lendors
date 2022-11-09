@@ -1,4 +1,3 @@
-import { Button } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Dropzone from "react-dropzone";
 import { BiEdit, BiUpload } from "react-icons/bi";
@@ -6,13 +5,17 @@ import { BsX } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { addCar, uploadImage } from "../../hooks";
 import { IUser } from "../../types/userTypes";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { addCarRedux } from "../../redux/slices/carsSlice";
 
 const AddCarComponent = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const userSlice = useSelector((state: any) => state?.userSlice);
   const user: IUser = userSlice.user;
+  const dispatch = useDispatch();
   useEffect(() => {
-    document.title = "Add New Car | Drive";
+    document.title = "Add New Car | Lendors";
   }, []);
   const [carInfo, setCarInfo] = useState<any>({
     name: "",
@@ -20,8 +23,8 @@ const AddCarComponent = () => {
     brand: "",
     isUrl: false,
     description: "",
-    price: null,
-    currency: "USD"
+    price: "",
+    currency: ""
   });
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -29,15 +32,29 @@ const AddCarComponent = () => {
       setLoading(true);
       if (!carInfo.imageStr) return;
       const url = await uploadImage(carInfo.imageStr);
-      addCar(
+      const response = await addCar(
         `${user.token}`,
         carInfo.name,
         carInfo.price,
         carInfo.brand,
         carInfo.currency,
         await url,
-        carInfo.description
+        carInfo.description,
+        toast,
+        dispatch,
+        addCarRedux
       );
+      if (response) {
+        setCarInfo({
+          name: "",
+          imageStr: "",
+          brand: "",
+          isUrl: false,
+          description: "",
+          price: "",
+          currency: ""
+        });
+      }
     } catch (error) {
       console.log(error);
     } finally {
@@ -78,12 +95,14 @@ const AddCarComponent = () => {
                 }}
                 className="my-2 h-12 font-poppins border-2 outline-none border-drive-blue p-2 rounded w-full"
                 type="text"
+                value={carInfo.name}
                 placeholder="Car Name"
               />
               <input
                 onChange={(e) => {
                   setCarInfo({ ...carInfo, brand: e.target.value });
                 }}
+                value={carInfo.brand}
                 className="my-2 h-12 font-poppins border-2 outline-none border-drive-blue p-2 rounded w-full"
                 type="text"
                 placeholder="Car Brand"
@@ -93,6 +112,7 @@ const AddCarComponent = () => {
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setCarInfo({ ...carInfo, price: e.target.value });
                 }}
+                value={carInfo.price}
                 className="my-2 h-12 font-poppins border-2 outline-none border-drive-blue p-2 rounded w-full"
                 type="number"
                 placeholder="Price"
@@ -101,6 +121,7 @@ const AddCarComponent = () => {
                 onChange={(e) => {
                   setCarInfo({ ...carInfo, currency: e.target.value });
                 }}
+                value={carInfo.currency}
                 className="my-2 h-12 font-poppins border-2 outline-none border-drive-blue p-2 rounded w-full"
                 type="text"
                 placeholder="Currency"
@@ -111,6 +132,7 @@ const AddCarComponent = () => {
                 id=""
                 cols={20}
                 rows={6}
+                value={carInfo.description}
                 onChange={(e) => {
                   setCarInfo({ ...carInfo, description: e.target.value });
                 }}
@@ -123,7 +145,7 @@ const AddCarComponent = () => {
                   className="hover:animate-ring bg-redish rounded disabled:bg-gray-500 w-1/4 py-3 text-white cursor-pointer font-poppins mt-4"
                   disabled={loading}
                 >
-                  {loading ? "Loading" : "Add Car"}
+                  {loading ? "Loading..." : "Add Car"}
                 </button>
               </div>
             </form>

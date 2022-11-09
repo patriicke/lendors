@@ -6,19 +6,20 @@ import Icon_1 from "/icons/icon_01.png";
 import { Fade, Slide } from "react-awesome-reveal";
 import { CommonContext } from "../../context";
 import { useSelector } from "react-redux";
-import { IUser } from "../../types/userTypes";
 import FooterComponent from "../footer/FooterComponent";
 import { CarObject } from "../../types/carTypes";
 import { useNavigate } from "react-router-dom";
+import { IUser } from "../../types/userTypes";
 const HomePageComponent: React.FC = () => {
   const navigate = useNavigate();
-  const userSlice = useSelector((state: any) => state?.userSlice);
   const [amount, setAmount] = useState<number>(1500000);
-  const { setLoginPage, setCurrentLink, cars } = useContext(CommonContext);
+  const { setLoginPage, setCurrentLink } = useContext(CommonContext);
+  const { userSlice, carsSlice } = useSelector((state: any) => state);
+  const { cars, allCars } = carsSlice;
+  const user: IUser = userSlice.user;
   useEffect(() => {
     setCurrentLink(0);
   }, []);
-  console.log(cars);
   return (
     <div className="h-[calc(100vh_-_5rem)] min-h-[calc(100vh_-_5rem)] w-full relative">
       <div className="h-[70rem] max-h-[80%] w-full absolute top-0 -z-50">
@@ -103,7 +104,10 @@ const HomePageComponent: React.FC = () => {
               <h1>20,000,000 RWF</h1>
             </div>
           </div>
-          <button className="bg-redish text-white flex items-center justify-center gap-3 w-[13em] h-14 mt-7 rounded-md font-bold text-xl hover:bg-red-800 duration-300" onClick={()=> navigate("/gallery")}>
+          <button
+            className="bg-redish text-white flex items-center justify-center gap-3 w-[13em] h-14 mt-7 rounded-md font-bold text-xl hover:bg-red-800 duration-300"
+            onClick={() => navigate("/gallery")}
+          >
             <span>FIND A CAR</span>
             <img src={Icon_1} alt="arrow" />
           </button>
@@ -126,7 +130,7 @@ const HomePageComponent: React.FC = () => {
       </Slide>
       <section className="h-[50em] py-8">
         <div className="w-full xl:w-[70%] m-auto py-4 flex flex-wrap gap-6 items-center justify-center  transition-all duration-300">
-          {cars
+          {(user.role == "admin" ? [...allCars] : [...cars])
             ?.sort((a: any, b: any) => {
               return (
                 (new Date(b?.createdAt) as any) -
@@ -164,6 +168,11 @@ const HomePageComponent: React.FC = () => {
                       >
                         View Details
                       </button>
+                      {user.role == "admin" && car.isBooked && (
+                        <button className="p-3 leading-tight text-white bg-blue-500 rounded-r-lg border border-gray-200 hover:bg-blue-600 hover:text-white dark:bg-dispatch dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white duration-75">
+                          BOOKED
+                        </button>
+                      )}
                     </div>
                   </div>
                 </Slide>

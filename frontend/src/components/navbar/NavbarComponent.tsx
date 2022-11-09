@@ -12,10 +12,13 @@ import { Link, useNavigate } from "react-router-dom";
 import Logo from "/favicon.png";
 import { useSelector } from "react-redux";
 import { IState } from "../../types/selectorTypes";
-import { IUser, ROLE } from "../../types/userTypes";
+import { IUser } from "../../types/userTypes";
 import { CommonContext } from "../../context";
 import { useDispatch } from "react-redux";
 import { logout } from "../../redux/slices/userSlice";
+import { resetUsers } from "../../redux/slices/usersSlice";
+import { resetRequests } from "../../redux/slices/requestsSlice";
+import { resetCars } from "../../redux/slices/carsSlice";
 
 const NavbarComponent: React.FC = () => {
   const navigate = useNavigate();
@@ -83,9 +86,10 @@ const NavbarComponent: React.FC = () => {
     },
     {
       icon: faBarsStaggered,
-      show: true
+      show: userSlice.isLoggedIn
     }
   ];
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!searchText) return;
@@ -154,14 +158,16 @@ const NavbarComponent: React.FC = () => {
             ref={DROP_ELEMENT}
           >
             <div className="py-1" role="none">
-              <a
+              <Link
+                to={"/account"}
                 className="text-gray-700 block px-4 py-2 text-sm"
                 role="menuitem"
                 tabIndex={-1}
                 id="menu-item-0"
+                onClick={() => setMenuDropComponent(false)}
               >
                 Account settings
-              </a>
+              </Link>
               <a
                 className="text-gray-700 block px-4 py-2 text-sm"
                 role="menuitem"
@@ -185,6 +191,9 @@ const NavbarComponent: React.FC = () => {
                 id="menu-item-3"
                 onClick={() => {
                   dispatch(logout());
+                  dispatch(resetUsers());
+                  dispatch(resetRequests());
+                  dispatch(resetCars());
                 }}
               >
                 Logout

@@ -1,5 +1,12 @@
+import { AnyAsyncThunk } from "@reduxjs/toolkit/dist/matchers";
 import api from "../api";
-import { CarObject } from "../types/carTypes";
+import {
+  removeCar,
+  updateAllCars,
+  updateCar,
+  updateCars
+} from "../redux/slices/carsSlice";
+import { updateRequest } from "../redux/slices/requestsSlice";
 
 //Login hook
 
@@ -58,7 +65,12 @@ export const useSignup = async (
 
 // Get users
 
-export const getUsers = async (token: string, setUsers: Function) => {
+export const getUsers = async (
+  token: string,
+  setUsers: Function,
+  dispatch: any,
+  updateUsers: any
+) => {
   try {
     const request = await api.get("/user/all", {
       headers: {
@@ -67,6 +79,7 @@ export const getUsers = async (token: string, setUsers: Function) => {
     });
     const response = request.data;
     setUsers(response.users);
+    dispatch(updateUsers(response.users));
   } catch (error) {
     console.log(error);
   }
@@ -84,32 +97,55 @@ export const deleteUser = async () => {
 
 //Delete user bg admin
 
-export const deleteUserByAdmin = async (token: string, userId: string) => {
+export const deleteUserByAdmin = async (
+  token: string,
+  userId: string,
+  toast: any,
+  setLoading: Function
+) => {
   try {
-    const request = await api.delete(`/user/delete/${userId}`, {
+    setLoading(true);
+    await api.delete(`/user/delete/${userId}`, {
       headers: {
         authorization: token
       }
     });
-    const response = request.data;
-    console.log(response);
+    toast.success("User Deleted Successfully");
   } catch (error) {
     console.log(error);
+    toast.error("User Deleted Successfully");
+  } finally {
+    setLoading(true);
   }
 };
 
 //Get cars
 
-export const getCars = async (setCars: any) => {
+export const getCars = async (dispatch: any, isAdmin: boolean) => {
   try {
     const request = await api.get("/car/all");
-    const response = request.data;
-    setCars(response.cars);
+    const cars = request.data.cars;
+
+    if (isAdmin) dispatch(updateAllCars(cars));
+
+    const filteredCars = cars.filter((car: any) => {
+      return !car.isBooked;
+    });
+    dispatch(updateCars(filteredCars));
   } catch (error) {
     console.log(error);
   }
 };
 
+export const getCarsAdmin = async (dispatch: any) => {
+  try {
+    const request = await api.get("/car/all");
+    const response = request.data;
+    dispatch(updateCars(response.cars));
+  } catch (error) {
+    console.log(error);
+  }
+};
 //Add car
 
 export const addCar = async (
@@ -119,10 +155,12 @@ export const addCar = async (
   brand: string,
   currency: string,
   imageUrl: string,
-  description: string
+  description: string,
+  toast: any,
+  dispatch: any,
+  addCar: any
 ) => {
   try {
-    console.log(brand);
     const request = await api.post(
       "/car/new",
       {
@@ -139,9 +177,14 @@ export const addCar = async (
         }
       }
     );
-    console.log(request.data);
+    const response = request.data;
+    dispatch(addCar(response.car));
+    toast.success(`${name} was added successfully`);
+    return true;
   } catch (error) {
+    toast.error(`An error occurred while adding ${name}`);
     console.log(error);
+    return false;
   }
 };
 
@@ -170,19 +213,22 @@ export const formatDate = (date: Date): string => {
   }`;
 };
 
-export const deleteCar = async (token: string, carId: string, setCars: any) => {
+export const deleteCar = async (
+  token: string,
+  carId: string,
+  dispatch: any,
+  toast: any
+) => {
   try {
-    const request = await api.delete(`/car/delete/${carId}`, {
+    await api.delete(`/car/delete/${carId}`, {
       headers: { authorization: token }
     });
-    setCars((cars: any) => {
-      return cars.filter((car: CarObject) => {
-        return car.id != carId;
-      });
-    });
-    const response = request.data;
+    dispatch(removeCar(carId));
+    toast.success("Car delete successfully");
+    return true;
   } catch (error) {
     console.log(error);
+    toast.error("An error occurred while deleting car");
   }
 };
 
@@ -236,7 +282,12 @@ export const useRequests = async (token: string, requestData: any) => {
   }
 };
 
-export const getRequest = async (token: string, setRequest: any) => {
+export const getRequest = async (
+  token: string,
+  setRequest: any,
+  dispatch: any,
+  updateRequests: any
+) => {
   try {
     const request = await api.get("/request/all", {
       headers: {
@@ -245,6 +296,7 @@ export const getRequest = async (token: string, setRequest: any) => {
     });
     const response = request.data;
     setRequest(response.requests);
+    dispatch(updateRequests(response.requests));
   } catch (error) {
     console.log(error);
   }
@@ -273,52 +325,48 @@ export const findUserDetails = (userId: any, users: any) => {
 export const acceptRequest = async (
   token: string,
   requestId: string,
-  setRequests: any
+  dispatch: any,
+  toast: any,
+  setLoading: Function
 ) => {
   try {
+    setLoading(true);
     const request = await api.get(`/request/grant/${requestId}`, {
       headers: {
         authorization: token
       }
     });
-    const response = request.data;
-    setRequests((requests: any) => {
-      return requests.map((request: any) => {
-        if (request.id == requestId) {
-          return response.request;
-        } else {
-          return request;
-        }
-      });
-    });
-    console.log(response);
+    dispatch(updateRequest(request.data.request));
+    dispatch(updateCar(request.data.car));
+    toast.success("Car request accepted successfully");
   } catch (error) {
     console.log(error);
+    toast.error("An errod occurred while accepting car request");
+  } finally {
+    setLoading(false);
   }
 };
 export const rejectRequest = async (
   token: string,
   requestId: string,
-  setRequests: any
+  dispatch: any,
+  toast: any,
+  setLoading: Function
 ) => {
   try {
+    setLoading(true);
     const request = await api.get(`/request/deny/${requestId}`, {
       headers: {
         authorization: token
       }
     });
-    const response = request.data;
-    setRequests((requests: any) => {
-      return requests.map((request: any) => {
-        if (request.id == requestId) {
-          return response.request;
-        } else {
-          return request;
-        }
-      });
-    });
-    console.log(response);
+    dispatch(updateRequest(request.data.request));
+    dispatch(updateCar(request.data.car));
+    toast.success("Car request denied successfully");
   } catch (error) {
     console.log(error);
+    toast.error("An errod occurred while denying car request");
+  } finally {
+    setLoading(false);
   }
 };
