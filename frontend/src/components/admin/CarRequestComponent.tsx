@@ -48,7 +48,7 @@ const CarRequestComponent = () => {
   const user: IUser = userSlice.user;
   const users: IUser[] = usersSlice.users;
   const requests = requestsSlice.requests;
-  const cars = carsSlice.cars;
+  const { allCars } = carsSlice;
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [loading, setLoading] = useState<boolean>(false);
@@ -103,7 +103,7 @@ const CarRequestComponent = () => {
                 .map((row: any) => (
                   <StyledTableRow key={row.id + Math.random()}>
                     <StyledTableCell>
-                      {findCarDetails(row.carId, cars)?.name}
+                      {findCarDetails(row.carId, allCars)?.name}
                     </StyledTableCell>
                     <StyledTableCell>
                       {findUserDetails(row.userId, users)?.names}
@@ -114,10 +114,10 @@ const CarRequestComponent = () => {
                     </StyledTableCell>
                     <StyledTableCell>{row.status}</StyledTableCell>
                     <StyledTableCell>
-                      {findCarDetails(row.carId, cars)?.price}
+                      {findCarDetails(row.carId, allCars)?.price}
                     </StyledTableCell>
                     <StyledTableCell>
-                      {findCarDetails(row.carId, cars)?.currency}
+                      {findCarDetails(row.carId, allCars)?.currency}
                     </StyledTableCell>
                     <StyledTableCell>
                       {findCarDetails(row.userId, users)?.telephone}

@@ -26,7 +26,6 @@ import CarPage from "./pages/Car/CarPage";
 import { IUser } from "./types/userTypes";
 import { useDispatch } from "react-redux";
 import { updateUsers } from "./redux/slices/usersSlice";
-import { updateCars } from "./redux/slices/carsSlice";
 import { updateRequests } from "./redux/slices/requestsSlice";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
@@ -41,7 +40,7 @@ const App = () => {
   const userSlice = useSelector((state: any) => state.userSlice);
   const user: IUser = userSlice.user;
   useEffect(() => {
-    getCars(setCars, dispatch, updateCars);
+    getCars(dispatch, user.role == "admin");
     if (user.role == "admin") {
       getUsers(`${user.token}`, setUsers, dispatch, updateUsers);
       getRequest(`${user.token}`, setRequests, dispatch, updateRequests);

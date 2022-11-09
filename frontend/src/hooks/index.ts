@@ -1,7 +1,12 @@
 import { AnyAsyncThunk } from "@reduxjs/toolkit/dist/matchers";
 import api from "../api";
+import {
+  removeCar,
+  updateAllCars,
+  updateCar,
+  updateCars
+} from "../redux/slices/carsSlice";
 import { updateRequest } from "../redux/slices/requestsSlice";
-import { CarObject } from "../types/carTypes";
 
 //Login hook
 
@@ -116,17 +121,31 @@ export const deleteUserByAdmin = async (
 
 //Get cars
 
-export const getCars = async (setCars: any, dispatch: any, updateCars: any) => {
+export const getCars = async (dispatch: any, isAdmin: boolean) => {
   try {
     const request = await api.get("/car/all");
-    const response = request.data;
-    setCars(response.cars);
-    dispatch(updateCars(response.cars));
+    const cars = request.data.cars;
+
+    if (isAdmin) dispatch(updateAllCars(cars));
+
+    const filteredCars = cars.filter((car: any) => {
+      return !car.isBooked;
+    });
+    dispatch(updateCars(filteredCars));
   } catch (error) {
     console.log(error);
   }
 };
 
+export const getCarsAdmin = async (dispatch: any) => {
+  try {
+    const request = await api.get("/car/all");
+    const response = request.data;
+    dispatch(updateCars(response.cars));
+  } catch (error) {
+    console.log(error);
+  }
+};
 //Add car
 
 export const addCar = async (
@@ -197,18 +216,14 @@ export const formatDate = (date: Date): string => {
 export const deleteCar = async (
   token: string,
   carId: string,
-  setCars: any,
+  dispatch: any,
   toast: any
 ) => {
   try {
     await api.delete(`/car/delete/${carId}`, {
       headers: { authorization: token }
     });
-    setCars((cars: any) => {
-      return cars.filter((car: CarObject) => {
-        return car.id != carId;
-      });
-    });
+    dispatch(removeCar(carId));
     toast.success("Car delete successfully");
     return true;
   } catch (error) {
@@ -322,6 +337,7 @@ export const acceptRequest = async (
       }
     });
     dispatch(updateRequest(request.data.request));
+    dispatch(updateCar(request.data.car));
     toast.success("Car request accepted successfully");
   } catch (error) {
     console.log(error);
@@ -345,6 +361,7 @@ export const rejectRequest = async (
       }
     });
     dispatch(updateRequest(request.data.request));
+    dispatch(updateCar(request.data.car));
     toast.success("Car request denied successfully");
   } catch (error) {
     console.log(error);

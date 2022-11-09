@@ -9,13 +9,14 @@ import { useSelector } from "react-redux";
 import FooterComponent from "../footer/FooterComponent";
 import { CarObject } from "../../types/carTypes";
 import { useNavigate } from "react-router-dom";
+import { IUser } from "../../types/userTypes";
 const HomePageComponent: React.FC = () => {
   const navigate = useNavigate();
-  const userSlice = useSelector((state: any) => state?.userSlice);
   const [amount, setAmount] = useState<number>(1500000);
   const { setLoginPage, setCurrentLink } = useContext(CommonContext);
-  const carsSlice = useSelector((state: any) => state.carsSlice);
-  const { cars } = carsSlice;
+  const { userSlice, carsSlice } = useSelector((state: any) => state);
+  const { cars, allCars } = carsSlice;
+  const user: IUser = userSlice.user;
   useEffect(() => {
     setCurrentLink(0);
   }, []);
@@ -129,7 +130,7 @@ const HomePageComponent: React.FC = () => {
       </Slide>
       <section className="h-[50em] py-8">
         <div className="w-full xl:w-[70%] m-auto py-4 flex flex-wrap gap-6 items-center justify-center  transition-all duration-300">
-          {[...cars]
+          {(user.role == "admin" ? [...allCars] : [...cars])
             ?.sort((a: any, b: any) => {
               return (
                 (new Date(b?.createdAt) as any) -
@@ -167,6 +168,11 @@ const HomePageComponent: React.FC = () => {
                       >
                         View Details
                       </button>
+                      {user.role == "admin" && car.isBooked && (
+                        <button className="p-3 leading-tight text-white bg-blue-500 rounded-r-lg border border-gray-200 hover:bg-blue-600 hover:text-white dark:bg-dispatch dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white duration-75">
+                          BOOKED
+                        </button>
+                      )}
                     </div>
                   </div>
                 </Slide>

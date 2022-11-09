@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -9,7 +9,6 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { TablePagination } from "@mui/material";
 import { BiTrash } from "react-icons/bi";
-import { CommonContext } from "../../context";
 import { deleteCar, formatDate } from "../../hooks";
 import { useSelector } from "react-redux";
 import { IUser } from "../../types/userTypes";
@@ -39,13 +38,12 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const AllCarsComponent: React.FC = () => {
   const { userSlice, carsSlice } = useSelector((state: any) => state);
-  const { cars } = carsSlice;
+  const { allCars } = carsSlice;
   const user: IUser = userSlice.user;
   const dispatch = useDispatch();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const { setCars } = useContext(CommonContext);
-  const rows = [...cars]?.sort((a: any, b: any) => {
+  const rows = [...allCars]?.sort((a: any, b: any) => {
     return (new Date(b?.createdAt) as any) - (new Date(a?.createdAt) as any);
   });
 
@@ -105,7 +103,12 @@ const AllCarsComponent: React.FC = () => {
                         title="Delete"
                         className="delete p-2 mx-2  hover:rotate-12 rounded-full bg-red-600 text-white"
                         onClick={async () => {
-                          await deleteCar(`${user.token}`, row.id, setCars,toast);
+                          await deleteCar(
+                            `${user.token}`,
+                            row.id,
+                            dispatch,
+                            toast
+                          );
                           dispatch(removeCar(row.id));
                         }}
                       >
