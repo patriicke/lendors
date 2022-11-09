@@ -11,8 +11,8 @@ const carsSlice: any = createSlice({
   name: "cars",
   initialState,
   reducers: {
-    addCar: (state: any, { payload }) => {
-      state.push(payload);
+    addCarRedux: (state: any, { payload }) => {
+      state.cars.push(payload);
     },
     updateCars: (state: any, { payload }) => {
       state.cars = payload;
@@ -28,6 +28,6 @@ const carsSlice: any = createSlice({
   }
 });
 
-export const { carTypes, updateCars, removeCar, resetCars } = carsSlice.actions;
+export const { addCarRedux, updateCars, removeCar, resetCars } = carsSlice.actions;
 
 export default carsSlice.reducer;

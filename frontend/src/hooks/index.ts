@@ -127,10 +127,12 @@ export const addCar = async (
   brand: string,
   currency: string,
   imageUrl: string,
-  description: string
+  description: string,
+  toast: any,
+  dispatch: any,
+  addCar: any
 ) => {
   try {
-    console.log(brand);
     const request = await api.post(
       "/car/new",
       {
@@ -147,9 +149,15 @@ export const addCar = async (
         }
       }
     );
-    console.log(request.data);
+    const response = request.data;
+    console.log(response.car);
+    dispatch(addCar(response.car));
+    toast.success(`${name} was added successfully`);
+    return true;
   } catch (error) {
+    toast.error(`An error occurred while adding ${name}`);
     console.log(error);
+    return false;
   }
 };
 

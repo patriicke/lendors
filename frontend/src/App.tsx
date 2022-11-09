@@ -28,7 +28,7 @@ import { useDispatch } from "react-redux";
 import { updateUsers } from "./redux/slices/usersSlice";
 import { updateCars } from "./redux/slices/carsSlice";
 import { updateRequests } from "./redux/slices/requestsSlice";
-
+import "react-toastify/dist/ReactToastify.css";
 const App = () => {
   const dispatch = useDispatch();
   const [loginPage, setLoginPage] = useState<boolean>(false);
