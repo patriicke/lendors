@@ -8,16 +8,13 @@ const requestsSlice: any = createSlice({
   name: "requests",
   initialState,
   reducers: {
-    addRequest: (state: any, { payload }) => {
-      state.push(payload);
-    },
     updateRequests: (state: any, { payload }) => {
       state.requests = payload;
     },
     updateRequest: (state: any, { payload }) => {
-      state = state.filter((request: any) => {
-        return request.id != payload;
-      });
+      state.requests = state.requests.map((request: any) =>
+        request.id == payload.id ? payload : request
+      );
     },
     resetRequests: (state: any) => {
       state.requests = [];
@@ -25,7 +22,7 @@ const requestsSlice: any = createSlice({
   }
 });
 
-export const { addRequest, updateRequests, updateRequest, resetRequests } =
+export const { updateRequests, updateRequest, resetRequests } =
   requestsSlice.actions;
 
 export default requestsSlice.reducer;

@@ -1,5 +1,6 @@
 import { AnyAsyncThunk } from "@reduxjs/toolkit/dist/matchers";
 import api from "../api";
+import { updateRequest } from "../redux/slices/requestsSlice";
 import { CarObject } from "../types/carTypes";
 
 //Login hook
@@ -91,17 +92,25 @@ export const deleteUser = async () => {
 
 //Delete user bg admin
 
-export const deleteUserByAdmin = async (token: string, userId: string) => {
+export const deleteUserByAdmin = async (
+  token: string,
+  userId: string,
+  toast: any,
+  setLoading: Function
+) => {
   try {
-    const request = await api.delete(`/user/delete/${userId}`, {
+    setLoading(true);
+    await api.delete(`/user/delete/${userId}`, {
       headers: {
         authorization: token
       }
     });
-    const response = request.data;
-    console.log(response);
+    toast.success("User Deleted Successfully");
   } catch (error) {
     console.log(error);
+    toast.error("User Deleted Successfully");
+  } finally {
+    setLoading(true);
   }
 };
 
@@ -150,7 +159,6 @@ export const addCar = async (
       }
     );
     const response = request.data;
-    console.log(response.car);
     dispatch(addCar(response.car));
     toast.success(`${name} was added successfully`);
     return true;
@@ -186,9 +194,14 @@ export const formatDate = (date: Date): string => {
   }`;
 };
 
-export const deleteCar = async (token: string, carId: string, setCars: any) => {
+export const deleteCar = async (
+  token: string,
+  carId: string,
+  setCars: any,
+  toast: any
+) => {
   try {
-    const request = await api.delete(`/car/delete/${carId}`, {
+    await api.delete(`/car/delete/${carId}`, {
       headers: { authorization: token }
     });
     setCars((cars: any) => {
@@ -196,9 +209,11 @@ export const deleteCar = async (token: string, carId: string, setCars: any) => {
         return car.id != carId;
       });
     });
-    const response = request.data;
+    toast.success("Car delete successfully");
+    return true;
   } catch (error) {
     console.log(error);
+    toast.error("An error occurred while deleting car");
   }
 };
 
@@ -295,52 +310,46 @@ export const findUserDetails = (userId: any, users: any) => {
 export const acceptRequest = async (
   token: string,
   requestId: string,
-  setRequests: any
+  dispatch: any,
+  toast: any,
+  setLoading: Function
 ) => {
   try {
+    setLoading(true);
     const request = await api.get(`/request/grant/${requestId}`, {
       headers: {
         authorization: token
       }
     });
-    const response = request.data;
-    setRequests((requests: any) => {
-      return requests.map((request: any) => {
-        if (request.id == requestId) {
-          return response.request;
-        } else {
-          return request;
-        }
-      });
-    });
-    console.log(response);
+    dispatch(updateRequest(request.data.request));
+    toast.success("Car request accepted successfully");
   } catch (error) {
     console.log(error);
+    toast.error("An errod occurred while accepting car request");
+  } finally {
+    setLoading(false);
   }
 };
 export const rejectRequest = async (
   token: string,
   requestId: string,
-  setRequests: any
+  dispatch: any,
+  toast: any,
+  setLoading: Function
 ) => {
   try {
+    setLoading(true);
     const request = await api.get(`/request/deny/${requestId}`, {
       headers: {
         authorization: token
       }
     });
-    const response = request.data;
-    setRequests((requests: any) => {
-      return requests.map((request: any) => {
-        if (request.id == requestId) {
-          return response.request;
-        } else {
-          return request;
-        }
-      });
-    });
-    console.log(response);
+    dispatch(updateRequest(request.data.request));
+    toast.success("Car request denied successfully");
   } catch (error) {
     console.log(error);
+    toast.error("An errod occurred while denying car request");
+  } finally {
+    setLoading(false);
   }
 };

@@ -1,4 +1,3 @@
-import { Button } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Dropzone from "react-dropzone";
 import { BiEdit, BiUpload } from "react-icons/bi";
@@ -6,7 +5,7 @@ import { BsX } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { addCar, uploadImage } from "../../hooks";
 import { IUser } from "../../types/userTypes";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { addCarRedux } from "../../redux/slices/carsSlice";
 
@@ -215,19 +214,6 @@ const AddCarComponent = () => {
           </div>
         </div>
       </div>
-      <button onClick={() => toast.success("Car added")}>click</button>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      />
     </div>
   );
 };

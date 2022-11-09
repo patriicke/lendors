@@ -99,15 +99,6 @@ const CarPage: React.FC = () => {
                   {car.description}
                 </span>
               </div>
-              <div className="flex items-center justify-center">
-                <Link
-                  to={`/car/${carId}/#requestCar`}
-                  className="text-center flex items-center justify-center w-52 my-4 hover:animate-ring m-auto py-3 rounded bg-redish text-white cursor-pointer"
-                >
-                  <button>Scroll Down</button>
-                  <FontAwesomeIcon icon={faSortDown} className="mx-2" />
-                </Link>
-              </div>
             </div>
           </div>
         </div>

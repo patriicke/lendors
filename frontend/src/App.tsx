@@ -29,6 +29,7 @@ import { updateUsers } from "./redux/slices/usersSlice";
 import { updateCars } from "./redux/slices/carsSlice";
 import { updateRequests } from "./redux/slices/requestsSlice";
 import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 const App = () => {
   const dispatch = useDispatch();
   const [loginPage, setLoginPage] = useState<boolean>(false);
@@ -99,6 +100,18 @@ const App = () => {
         </Router>
       </div>
       <AuthComponent />
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </CommonContext.Provider>
   );
 };
