@@ -20,6 +20,7 @@ const userSlice: any = createSlice({
     logout: (state) => {
       state.isLoggedIn = false;
       state.user = {};
+      window.location.replace(window.location.origin);
     },
     update: (state, { payload }) => {
       state = payload;

@@ -1,9 +1,12 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import carsReducer from "./slices/carsSlice";
 import userReducer from "./slices/userSlice";
+import usersReducer from "./slices/usersSlice";
 import thunk from "redux-thunk";
 import storage from "redux-persist/lib/storage";
 import persistReducer from "redux-persist/es/persistReducer";
 import persistStore from "redux-persist/es/persistStore";
+import requestsReducer from "./slices/requestsSlice";
 
 const persitConfig = {
   key: "root",
@@ -11,7 +14,10 @@ const persitConfig = {
 };
 
 const rootReducer = combineReducers({
-  userSlice: userReducer
+  userSlice: userReducer,
+  carsSlice: carsReducer,
+  usersSlice: usersReducer,
+  requestsSlice: requestsReducer
 });
 
 const persistedReducer = persistReducer(persitConfig, rootReducer);

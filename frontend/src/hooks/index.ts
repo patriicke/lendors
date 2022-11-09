@@ -1,3 +1,4 @@
+import { AnyAsyncThunk } from "@reduxjs/toolkit/dist/matchers";
 import api from "../api";
 import { CarObject } from "../types/carTypes";
 
@@ -58,7 +59,12 @@ export const useSignup = async (
 
 // Get users
 
-export const getUsers = async (token: string, setUsers: Function) => {
+export const getUsers = async (
+  token: string,
+  setUsers: Function,
+  dispatch: any,
+  updateUsers: any
+) => {
   try {
     const request = await api.get("/user/all", {
       headers: {
@@ -67,6 +73,7 @@ export const getUsers = async (token: string, setUsers: Function) => {
     });
     const response = request.data;
     setUsers(response.users);
+    dispatch(updateUsers(response.users));
   } catch (error) {
     console.log(error);
   }
@@ -100,11 +107,12 @@ export const deleteUserByAdmin = async (token: string, userId: string) => {
 
 //Get cars
 
-export const getCars = async (setCars: any) => {
+export const getCars = async (setCars: any, dispatch: any, updateCars: any) => {
   try {
     const request = await api.get("/car/all");
     const response = request.data;
     setCars(response.cars);
+    dispatch(updateCars(response.cars));
   } catch (error) {
     console.log(error);
   }
@@ -236,7 +244,12 @@ export const useRequests = async (token: string, requestData: any) => {
   }
 };
 
-export const getRequest = async (token: string, setRequest: any) => {
+export const getRequest = async (
+  token: string,
+  setRequest: any,
+  dispatch: any,
+  updateRequests: any
+) => {
   try {
     const request = await api.get("/request/all", {
       headers: {
@@ -245,6 +258,7 @@ export const getRequest = async (token: string, setRequest: any) => {
     });
     const response = request.data;
     setRequest(response.requests);
+    dispatch(updateRequests(response.requests));
   } catch (error) {
     console.log(error);
   }

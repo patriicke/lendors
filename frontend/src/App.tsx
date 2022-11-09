@@ -10,7 +10,7 @@ import {
 import AuthComponent from "./components/auth/AuthComponent";
 import NavbarComponent from "./components/navbar/NavbarComponent";
 import { CommonContext } from "./context";
-import { getCars, getUsers } from "./hooks";
+import { getCars, getRequest, getUsers } from "./hooks";
 import NotFoundPage from "./pages/404/NotFoundPage";
 import AboutPage from "./pages/About/AboutPage";
 import AddCarPage from "./pages/Admin/AddCarPage";
@@ -19,14 +19,18 @@ import AllCustomersPage from "./pages/Admin/AllCustomersPage";
 import CarRequestPage from "./pages/Admin/CarRequestPage";
 import ContactPage from "./pages/Contact/ContactPage";
 import GalleryPage from "./pages/Gallery/GalleryPage";
-import GallerySearchElement from "./pages/GallerySearch/GallerySearchElement";
 import HomePage from "./pages/Home/HomePage";
 import ReviewsPage from "./pages/Review/ReviewsPage";
 import UserPage from "./pages/User/User";
 import CarPage from "./pages/Car/CarPage";
 import { IUser } from "./types/userTypes";
+import { useDispatch } from "react-redux";
+import { updateUsers } from "./redux/slices/usersSlice";
+import { updateCars } from "./redux/slices/carsSlice";
+import { updateRequests } from "./redux/slices/requestsSlice";
 
 const App = () => {
+  const dispatch = useDispatch();
   const [loginPage, setLoginPage] = useState<boolean>(false);
   const [currentLink, setCurrentLink] = useState<number>(0);
   const [currentAdminLink, setCurrentAdminLink] = useState<number>(0);
@@ -36,9 +40,12 @@ const App = () => {
   const userSlice = useSelector((state: any) => state.userSlice);
   const user: IUser = userSlice.user;
   useEffect(() => {
-    getUsers(`${user.token}`, setUsers);
-    getCars(setCars);
-  }, []);
+    getCars(setCars, dispatch, updateCars);
+    if (user.role == "admin") {
+      getUsers(`${user.token}`, setUsers, dispatch, updateUsers);
+      getRequest(`${user.token}`, setRequests, dispatch, updateRequests);
+    }
+  }, [user]);
   return (
     <CommonContext.Provider
       value={{
@@ -67,10 +74,6 @@ const App = () => {
             <Route path="/" element={<HomePage />} />
             <Route path="/gallery" element={<GalleryPage />} />
             <Route path="/car/:carId" element={<CarPage />} />
-            {/* <Route
-              path="/gallery/:carname"
-              element={<GallerySearchElement />}
-            /> */}
             <Route path="/review" element={<ReviewsPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />

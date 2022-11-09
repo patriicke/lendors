@@ -6,7 +6,6 @@ import Icon_1 from "/icons/icon_01.png";
 import { Fade, Slide } from "react-awesome-reveal";
 import { CommonContext } from "../../context";
 import { useSelector } from "react-redux";
-import { IUser } from "../../types/userTypes";
 import FooterComponent from "../footer/FooterComponent";
 import { CarObject } from "../../types/carTypes";
 import { useNavigate } from "react-router-dom";
@@ -14,11 +13,12 @@ const HomePageComponent: React.FC = () => {
   const navigate = useNavigate();
   const userSlice = useSelector((state: any) => state?.userSlice);
   const [amount, setAmount] = useState<number>(1500000);
-  const { setLoginPage, setCurrentLink, cars } = useContext(CommonContext);
+  const { setLoginPage, setCurrentLink } = useContext(CommonContext);
+  const carsSlice = useSelector((state: any) => state.carsSlice);
+  const { cars } = carsSlice;
   useEffect(() => {
     setCurrentLink(0);
   }, []);
-  console.log(cars);
   return (
     <div className="h-[calc(100vh_-_5rem)] min-h-[calc(100vh_-_5rem)] w-full relative">
       <div className="h-[70rem] max-h-[80%] w-full absolute top-0 -z-50">
@@ -103,7 +103,10 @@ const HomePageComponent: React.FC = () => {
               <h1>20,000,000 RWF</h1>
             </div>
           </div>
-          <button className="bg-redish text-white flex items-center justify-center gap-3 w-[13em] h-14 mt-7 rounded-md font-bold text-xl hover:bg-red-800 duration-300" onClick={()=> navigate("/gallery")}>
+          <button
+            className="bg-redish text-white flex items-center justify-center gap-3 w-[13em] h-14 mt-7 rounded-md font-bold text-xl hover:bg-red-800 duration-300"
+            onClick={() => navigate("/gallery")}
+          >
             <span>FIND A CAR</span>
             <img src={Icon_1} alt="arrow" />
           </button>
@@ -126,7 +129,7 @@ const HomePageComponent: React.FC = () => {
       </Slide>
       <section className="h-[50em] py-8">
         <div className="w-full xl:w-[70%] m-auto py-4 flex flex-wrap gap-6 items-center justify-center  transition-all duration-300">
-          {cars
+          {[...cars]
             ?.sort((a: any, b: any) => {
               return (
                 (new Date(b?.createdAt) as any) -

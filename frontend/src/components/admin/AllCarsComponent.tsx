@@ -13,6 +13,8 @@ import { CommonContext } from "../../context";
 import { deleteCar, formatDate } from "../../hooks";
 import { useSelector } from "react-redux";
 import { IUser } from "../../types/userTypes";
+import { useDispatch } from "react-redux";
+import { removeCar } from "../../redux/slices/carsSlice";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -35,12 +37,14 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const AllCarsComponent: React.FC = () => {
-  const { userSlice } = useSelector((state: any) => state);
+  const { userSlice, carsSlice } = useSelector((state: any) => state);
+  const { cars } = carsSlice;
   const user: IUser = userSlice.user;
+  const dispatch = useDispatch();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const { cars, setCars } = useContext(CommonContext);
-  const rows = cars?.sort((a: any, b: any) => {
+  const { setCars } = useContext(CommonContext);
+  const rows = [...cars]?.sort((a: any, b: any) => {
     return (new Date(b?.createdAt) as any) - (new Date(a?.createdAt) as any);
   });
 
@@ -102,9 +106,10 @@ const AllCarsComponent: React.FC = () => {
                       <button
                         title="Delete"
                         className="delete p-2 mx-2  hover:rotate-12 rounded-full bg-red-600 text-white"
-                        onClick={() =>
-                          deleteCar(`${user.token}`, row.id, setCars)
-                        }
+                        onClick={() => {
+                          deleteCar(`${user.token}`, row.id, setCars);
+                          dispatch(removeCar(row.id));
+                        }}
                       >
                         <BiTrash size={20} />
                       </button>
