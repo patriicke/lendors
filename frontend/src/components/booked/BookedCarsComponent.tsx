@@ -17,8 +17,6 @@ const BookedCarsComponent: React.FC = () => {
     document.addEventListener("mousedown", clickEvent);
     return () => document.removeEventListener("mousedown", clickEvent);
   }, [BOOK_ELEMENT]);
-  console.log(requests);
-
   return (
     <div
       className={`absolute ${
