@@ -19,18 +19,38 @@ import { logout } from "../../redux/slices/userSlice";
 import { resetUsers } from "../../redux/slices/usersSlice";
 import { resetRequests } from "../../redux/slices/requestsSlice";
 import { resetCars } from "../../redux/slices/carsSlice";
+import { CarObject } from "../../types/carTypes";
 
 const NavbarComponent: React.FC = () => {
   const navigate = useNavigate();
-  const userSlice = useSelector((state: IState) => state.userSlice);
+  const { userSlice, carsSlice } = useSelector((state: IState) => state);
   const user: IUser = userSlice.user;
+  const cars: CarObject[] = carsSlice.cars;
   const dispatch = useDispatch();
   const { currentLink, setCurrentLink } = useContext(CommonContext);
   const { setLoginPage } = useContext(CommonContext);
   const [searchElement, setSearchElement] = useState<boolean>(false);
   const [menuDropComponent, setMenuDropComponent] = useState<boolean>(false);
+  const [foundCars, setFoundCars] = useState<CarObject[]>([]);
   const DROP_ELEMENT: any = useRef(null);
   const [searchText, setSearchText] = useState<string>("");
+  useEffect(() => {
+    setFoundCars(
+      cars.filter((car: CarObject) => {
+        return (
+          car.name
+            .toLocaleLowerCase()
+            .includes(searchText.toLocaleLowerCase()) ||
+          car.brand
+            .toLocaleLowerCase()
+            .includes(searchText.toLocaleLowerCase()) ||
+          car.description
+            .toLocaleLowerCase()
+            .includes(searchText.toLocaleLowerCase())
+        );
+      })
+    );
+  }, [searchText]);
   useEffect(() => {
     const clickEvent = () => {
       if (!DROP_ELEMENT.current?.contains(event?.target))
@@ -89,12 +109,6 @@ const NavbarComponent: React.FC = () => {
       show: userSlice.isLoggedIn
     }
   ];
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!searchText) return;
-    navigate(`gallery/${searchText}`);
-  };
 
   return (
     <div className="bg-blueish-2 h-20 w-full flex px-4 lg:px-20 2xl:px-60 items-center justify-between relative z-30">
@@ -205,8 +219,7 @@ const NavbarComponent: React.FC = () => {
       <form
         className={`absolute bg-black h-20 z-10 top-full w-full left-0 ${
           searchElement ? "translate-x-0" : "-translate-x-[100%]"
-        } w-full opacity-70 flex px-4 lg:px-20 2xl:px-60 items-center justify-between duration-150 ease-in-out`}
-        onSubmit={handleSubmit}
+        } w-full opacity-80 flex px-4 lg:px-20 2xl:px-60 items-center justify-between duration-150 ease-in-out`}
       >
         <input
           type="text"
@@ -215,6 +228,7 @@ const NavbarComponent: React.FC = () => {
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setSearchText(e.target.value);
           }}
+          value={searchText}
         />
         <button type="submit">
           <FontAwesomeIcon
@@ -223,6 +237,61 @@ const NavbarComponent: React.FC = () => {
           />
         </button>
       </form>
+      <div
+        className={`absolute bg-black h-56 z-10 top-[calc(2_*_100%)] w-full left-0 ${
+          searchElement && searchText.length
+            ? "translate-x-0"
+            : "-translate-x-[100%]"
+        } w-full opacity-70 flex px-4 lg:px-20 2xl:px-60 duration-150 ease-in-out overflow-auto flex-col gap-2`}
+      >
+        {foundCars.length < 1 ? (
+          <div className="py-3 text-lg text-red-500 font-semibold">
+            We don't have <span className="underline"> {searchText}</span>
+          </div>
+        ) : (
+          <>
+            {foundCars.map((foundCar: CarObject) => {
+              return (
+                <div className="py-3 sm:py-4 cursor-pointer border-b-2">
+                  <div className="flex items-center space-x-4">
+                    <div className="flex-shrink-0">
+                      <img
+                        className="w-16 h-16 rounded-full object-cover  "
+                        src={foundCar.imageUrl}
+                        alt="Neil image"
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-lg font-medium text-gray-300 truncate dark:text-white">
+                        {foundCar.name}
+                      </p>
+                      <p className="text-md text-gray-200 truncate dark:text-gray-400">
+                        brand: {foundCar.brand}
+                      </p>
+                    </div>
+                    <div className="inline-flex items-center text-base font-semibold text-white dark:text-white p-2">
+                      {foundCar.currency.toUpperCase() == "USD" && "$"}{" "}
+                      {foundCar.price}{" "}
+                      {foundCar.currency.toUpperCase() != "USD" &&
+                        foundCar.currency}
+                    </div>
+                    <button
+                      className="text-white px-5 py-2 bg-redish rounded-md"
+                      onClick={() => {
+                        setSearchText("");
+                        setSearchElement(false);
+                        navigate(`/car/${foundCar.id}`);
+                      }}
+                    >
+                      VIEW DETAILS
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </>
+        )}
+      </div>
     </div>
   );
 };

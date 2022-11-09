@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import * as dateFns from "date-fns";
-import { useCar, useCars, useRequests } from "../../hooks";
-import { faSortDown } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useCar, useRequests } from "../../hooks";
 import { useSelector } from "react-redux";
 import { IUser } from "../../types/userTypes";
 
@@ -27,6 +25,7 @@ const CarPage: React.FC = () => {
     endDate: dateFns.format(Date.now(), "MM-d-yyy"),
     days: 0
   });
+
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -40,15 +39,12 @@ const CarPage: React.FC = () => {
       setError(true);
     }
   };
-
   useEffect(() => {
     getCar();
   }, [carId]);
-
   useEffect(() => {
-    document.title = "Tesla Model 3 | Home";
-  }, []);
-
+    document.title = `${car.name} | Lendors`;
+  });
   const handleRequestCar = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();

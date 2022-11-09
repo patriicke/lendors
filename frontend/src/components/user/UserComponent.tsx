@@ -5,11 +5,10 @@ import Sidebar from "./Siderbar";
 import { IUser } from "../../types/userTypes";
 
 const UserComponent = () => {
-  const keys = ["Name", "E-mail", "Phone Number", "Country", "Address"];
-  const [active, setActive] = useState<number>(1);
   const userSlice = useSelector((state: any) => state.userSlice);
   const user: IUser = userSlice.user;
   useEffect(() => {
+    document.title = `${user.names} | Lendors`;
     user ? null : window.location.replace("/");
   }, []);
   return (
