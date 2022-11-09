@@ -1,3 +1,5 @@
 export interface IState {
-    userSlice: any;
+  userSlice: any;
+  carsSlice: any;
+  requestsSlice: any;
 }

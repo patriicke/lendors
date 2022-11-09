@@ -15,6 +15,7 @@ const GalleryPage: React.FC = () => {
   const { cars, allCars } = carsSlice;
   useEffect(() => {
     setCurrentLink(1);
+    document.title = "Gallery | Lendors";
   }, []);
   return (
     <div className={`h-[calc(100vh_-_5rem)] w-full mt-5`}>

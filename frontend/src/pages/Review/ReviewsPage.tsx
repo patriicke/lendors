@@ -15,6 +15,7 @@ const ReviewsPage: React.FC = () => {
   const { setCurrentLink } = useContext(CommonContext);
   useEffect(() => {
     setCurrentLink(2);
+    document.title = "Reviews | Lendors";
   }, []);
   const reviews = [
     {

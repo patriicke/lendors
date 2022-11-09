@@ -19,6 +19,7 @@ const HomePageComponent: React.FC = () => {
   const user: IUser = userSlice.user;
   useEffect(() => {
     setCurrentLink(0);
+    document.title = "Lendors";
   }, []);
   return (
     <div className="h-[calc(100vh_-_5rem)] min-h-[calc(100vh_-_5rem)] w-full relative">

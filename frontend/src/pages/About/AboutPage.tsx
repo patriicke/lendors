@@ -7,6 +7,7 @@ const AboutPage: React.FC = () => {
   const { setCurrentLink } = useContext(CommonContext);
   useEffect(() => {
     setCurrentLink(3);
+    document.title = "About | Lendors";
   }, []);
   return (
     <div className="h-[calc(100vh_-_5rem)] w-screen">

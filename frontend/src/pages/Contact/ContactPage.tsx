@@ -8,9 +8,10 @@ const ContactPage: React.FC = () => {
   useEffect(() => {
     setCurrentLink(4);
   }, []);
+  document.title = "Contacts | Lendors";
   return (
     <div className={`h-[calc(100vh_-_5rem)] w-full`}>
-      <ContactComponent/>
+      <ContactComponent />
       <FooterComponent />
     </div>
   );
