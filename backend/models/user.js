@@ -23,11 +23,12 @@ const User = sequelize.define(
     telephone: { type: DataTypes.STRING, allowNull: false, unique: true },
     role: { type: DataTypes.STRING, defautValue: "user", allowNull: false },
     password: { type: DataTypes.STRING, allowNull: false },
+    requests: { type: DataTypes.ARRAY(DataTypes.STRING), defaultValue: [] }
   },
   {}
 );
 
-//registerSchema('User', sequelize.createSchema('User'), { orm: 'sequelize' });
+// registerSchema('User', sequelize.createSchema('User'), { orm: 'sequelize' });
 
 module.exports = () => {
   return User;

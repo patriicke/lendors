@@ -23,11 +23,15 @@ import { CarObject } from "../../types/carTypes";
 
 const NavbarComponent: React.FC = () => {
   const navigate = useNavigate();
-  const { userSlice, carsSlice } = useSelector((state: IState) => state);
+  const { userSlice, carsSlice, userRequestsSlice } = useSelector(
+    (state: IState) => state
+  );
   const user: IUser = userSlice.user;
   const cars: CarObject[] = carsSlice.cars;
+  const { requests } = userRequestsSlice;
   const dispatch = useDispatch();
-  const { currentLink, setCurrentLink } = useContext(CommonContext);
+  const { currentLink, setCurrentLink, setShowCarts, showCarts } =
+    useContext(CommonContext);
   const { setLoginPage } = useContext(CommonContext);
   const [searchElement, setSearchElement] = useState<boolean>(false);
   const [menuDropComponent, setMenuDropComponent] = useState<boolean>(false);
@@ -97,7 +101,7 @@ const NavbarComponent: React.FC = () => {
       show: true
     },
     {
-      icon: faCartShopping,
+      icon: showCarts ? faClose : faCartShopping,
       show: userSlice.isLoggedIn
     },
     {
@@ -144,17 +148,24 @@ const NavbarComponent: React.FC = () => {
               />
             </Link>
           ) : (
-            <FontAwesomeIcon
-              icon={icon}
-              className={`text-white hover:text-redish cursor-pointer duration-500 ${
-                !show && "hidden"
-              }`}
-              key={index}
-              onClick={() => {
-                index == 0 && setSearchElement((cur) => !cur);
-                index == 3 && setMenuDropComponent(true);
-              }}
-            />
+            <div key={index} className={`relative`}>
+              <FontAwesomeIcon
+                icon={icon}
+                className={`text-white hover:text-redish cursor-pointer duration-500 ${
+                  !show && "hidden"
+                }`}
+                onClick={() => {
+                  index == 0 && setSearchElement((cur) => !cur);
+                  index == 1 && setShowCarts((cur: boolean) => !cur);
+                  index == 3 && setMenuDropComponent(true);
+                }}
+              />
+              {requests.length > 0 && index == 1 && !showCarts && (
+                <span className="text-white bg-redish absolute px-1.5 rounded-full -top-1.5 -right-2 text-sm">
+                  {requests.length}
+                </span>
+              )}
+            </div>
           );
         })}
 
@@ -252,7 +263,10 @@ const NavbarComponent: React.FC = () => {
           <>
             {foundCars.map((foundCar: CarObject) => {
               return (
-                <div className="py-3 sm:py-4 cursor-pointer border-b-2">
+                <div
+                  className="py-3 sm:py-4 cursor-pointer border-b-2"
+                  key={foundCar.id}
+                >
                   <div className="flex items-center space-x-4">
                     <div className="flex-shrink-0">
                       <img

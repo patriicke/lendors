@@ -10,7 +10,7 @@ import {
 import AuthComponent from "./components/auth/AuthComponent";
 import NavbarComponent from "./components/navbar/NavbarComponent";
 import { CommonContext } from "./context";
-import { getCars, getRequest, getUsers } from "./hooks";
+import { getCars, getRequest, getUserRequests, getUsers } from "./hooks";
 import NotFoundPage from "./pages/404/NotFoundPage";
 import AboutPage from "./pages/About/AboutPage";
 import AddCarPage from "./pages/Admin/AddCarPage";
@@ -29,6 +29,7 @@ import { updateUsers } from "./redux/slices/usersSlice";
 import { updateRequests } from "./redux/slices/requestsSlice";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import BookedCarsComponent from "./components/booked/BookedCarsComponent";
 const App = () => {
   const dispatch = useDispatch();
   const [loginPage, setLoginPage] = useState<boolean>(false);
@@ -37,10 +38,12 @@ const App = () => {
   const [users, setUsers] = useState<IUser[]>([]);
   const [cars, setCars] = useState<IUser[]>([]);
   const [requests, setRequests] = useState<IUser[]>([]);
+  const [showCarts, setShowCarts] = useState<boolean>(false);
   const userSlice = useSelector((state: any) => state.userSlice);
   const user: IUser = userSlice.user;
   useEffect(() => {
-    getCars(dispatch, user.role == "admin");
+    getCars(dispatch);
+    if (userSlice.isLoggedIn) getUserRequests(`${user.token}`, dispatch);
     if (user.role == "admin") {
       getUsers(`${user.token}`, setUsers, dispatch, updateUsers);
       getRequest(`${user.token}`, setRequests, dispatch, updateRequests);
@@ -60,7 +63,9 @@ const App = () => {
         cars,
         setCars,
         requests,
-        setRequests
+        setRequests,
+        showCarts,
+        setShowCarts
       }}
     >
       <div
@@ -99,6 +104,7 @@ const App = () => {
         </Router>
       </div>
       <AuthComponent />
+      <BookedCarsComponent />
       <ToastContainer
         position="top-right"
         autoClose={5000}
