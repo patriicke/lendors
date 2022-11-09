@@ -25,7 +25,7 @@ const BookedCarsComponent: React.FC = () => {
     >
       {!requests?.length ? (
         <div className="bg-white p-2 rounded-md font-semibold text-redish">
-          You haven't yet made any car requests?.
+          You haven't yet made any car requests.
         </div>
       ) : (
         <>
