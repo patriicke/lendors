@@ -4,7 +4,8 @@ const { registerDefinition } = require("swaggiffy");
 const {
   denyRequest,
   grantRequest,
-  newRequest
+  newRequest,
+  getRequestsByUser
 } = require("../controllers/request.controller");
 const {
   checkLoggedIn,
@@ -29,6 +30,8 @@ requestRouter.get(
   denyRequest
 );
 requestRouter.post("/new", [checkLoggedIn], newRequest);
+
+requestRouter.get("/user/all", [checkLoggedIn], getRequestsByUser);
 
 registerDefinition(requestRouter, {
   tags: "requests",
