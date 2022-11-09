@@ -9,7 +9,6 @@ const BookedCarsComponent: React.FC = () => {
   const { requests } = userRequestsSlice;
   const { allCars } = carsSlice;
   const BOOK_ELEMENT: any = useRef(null);
-  const scrollPosition = useScrollPosition();
   useEffect(() => {
     const clickEvent = () => {
       if (!BOOK_ELEMENT.current?.contains(event?.target)) setShowCarts(false);
@@ -24,9 +23,9 @@ const BookedCarsComponent: React.FC = () => {
       } h-[calc(100vh_-_5rem)] w-[25em] max-w-[25em] bg-gray-500 top-20 right-[10px] duration-150 flex flex-col gap-4 overflow-auto p-2 z-40`}
       ref={BOOK_ELEMENT}
     >
-      {!requests.length ? (
+      {!requests?.length ? (
         <div className="bg-white p-2 rounded-md font-semibold text-redish">
-          You haven't yet made any car requests.
+          You haven't yet made any car requests?.
         </div>
       ) : (
         <>
@@ -44,7 +43,7 @@ const BookedCarsComponent: React.FC = () => {
             })
             .map((request) => {
               return (
-                <div className="flex justify-center" key={request.id}>
+                <div className="flex justify-center" key={request?.id}>
                   <div className="rounded-lg shadow-lg bg-white max-w-sm">
                     <a
                       href="#!"
@@ -53,17 +52,17 @@ const BookedCarsComponent: React.FC = () => {
                     >
                       <img
                         className="rounded-t-lg"
-                        src={findCarDetails(request.carId, allCars)?.imageUrl}
-                        alt={request.name}
+                        src={findCarDetails(request?.carId, allCars)?.imageUrl}
+                        alt={request?.name}
                       />
                     </a>
                     <div className="p-6">
                       <h5 className="text-gray-900 text-xl font-semibold mb-2 flex gap-2">
                         <span>
-                          {findCarDetails(request.carId, allCars)?.name}{" "}
+                          {findCarDetails(request?.carId, allCars)?.name}{" "}
                         </span>
                         <span className="opacity-60">
-                          ({findCarDetails(request.carId, allCars).brand})
+                          ({findCarDetails(request?.carId, allCars)?.brand})
                         </span>
                       </h5>
                       <h5 className="flex text-lg font-medium gap-2">
@@ -71,23 +70,23 @@ const BookedCarsComponent: React.FC = () => {
                         <span>
                           <span className="flex gap-1 font-semibold">
                             {findCarDetails(
-                              request.carId,
+                              request?.carId,
                               allCars
-                            ).currency.toUpperCase() == "USD" && "$"}
+                            )?.currency.toUpperCase() == "USD" && "$"}
                             <span>
                               {new Intl.NumberFormat("es-us").format(
-                                findCarDetails(request.carId, allCars).price
+                                findCarDetails(request.carId, allCars)?.price
                               )}
                             </span>
                             <span>
                               {findCarDetails(
-                                request.carId,
+                                request?.carId,
                                 allCars
                               ).currency.toUpperCase() != "USD" &&
                                 findCarDetails(
-                                  request.carId,
+                                  request?.carId,
                                   allCars
-                                ).currency.toUpperCase()}
+                                ).currency?.toUpperCase()}
                             </span>
                           </span>
                         </span>
