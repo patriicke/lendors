@@ -75,24 +75,24 @@ const BookedCarsComponent: React.FC = () => {
                             )?.currency.toUpperCase() == "USD" && "$"}
                             <span>
                               {new Intl.NumberFormat("es-us").format(
-                                findCarDetails(request.carId, allCars)?.price
+                                findCarDetails(request?.carId, allCars)?.price
                               )}
                             </span>
                             <span>
                               {findCarDetails(
                                 request?.carId,
                                 allCars
-                              ).currency.toUpperCase() != "USD" &&
+                              )?.currency.toUpperCase() != "USD" &&
                                 findCarDetails(
                                   request?.carId,
                                   allCars
-                                ).currency?.toUpperCase()}
+                                )?.currency?.toUpperCase()}
                             </span>
                           </span>
                         </span>
                       </h5>
                       <p className="text-gray-700 text-md mb-4">
-                        {findCarDetails(request.carId, allCars).description}
+                        {findCarDetails(request.carId, allCars)?.description}
                       </p>
                       <div className="flex gap-2 items-center font-semibold">
                         STATUS:
