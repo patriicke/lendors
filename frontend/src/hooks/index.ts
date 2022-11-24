@@ -137,7 +137,7 @@ export const getCars = async (dispatch: any) => {
     const filteredCars = cars.filter((car: any) => {
       return !car.isBooked;
     });
-    dispatch(updateCars(filteredCars));
+    dispatch(updateCars(cars));
   } catch (error) {
     console.log(error);
   }
