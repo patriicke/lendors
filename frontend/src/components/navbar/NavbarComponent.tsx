@@ -152,9 +152,9 @@ const NavbarComponent: React.FC = () => {
               key={index}
               className={`relative cursor-pointer`}
               onClick={() => {
-                index == 0 && setSearchElement((cur) => !cur);
+                index == 0 && setSearchElement((cur: boolean) => !cur);
                 index == 1 && setShowCarts((cur: boolean) => !cur);
-                index == 3 && setMenuDropComponent(true);
+                index == 3 && setMenuDropComponent((cur: boolean) => !cur);
               }}
             >
               <FontAwesomeIcon
