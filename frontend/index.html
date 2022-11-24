@@ -2,111 +2,94 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <link
+      name="logo"
+      rel="icon"
+      type="image/svg+xml"
+      href="./src/assets/logo/logo.png"
+    />
+    <meta
+      name="title"
+      property="og:title"
+      content="Twencon - You can create more than one group..."
+    />
+    <meta
+      name="description"
+      property="og:description"
+      content="You can create more than one group for free. You can post photos and videos and get feedback from your friends. Be the one to invite your friends and family members first!"
+    />
+    <meta name="type" property="og:type" content="article" />
+    <meta
+      name="image"
+      property="og:image"
+      content="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80"
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="/favicon.png" />
+    <link rel="stylesheet" href="./src/index.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
       rel="stylesheet"
     />
-    <link rel="shortcut icon" href="/favicon.png" />
-    <link rel="stylesheet" href="./src/index.css" />
-    <title>Lendors</title>
+    <title>Lendors - Welcome</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      .loading-container {
+        height: 100vh;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        background: #000c21;
+        color: white;
+        font-size: larger;
+        letter-spacing: 10px;
+        flex-direction: column;
+        gap: 4em;
+      }
+      .loading-animation {
+        width: 10em;
+        height: 10em;
+        border-top: 4px red solid;
+        border-radius: 50%;
+        animation: rotate 1s linear infinite;
+      }
+      @keyframes rotate {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .hide {
+        display: hidden;
+      }
+      .body {
+        overflow: hidden;
+      }
+    </style>
   </head>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    .loading-container {
-      height: 100vh;
-      width: 100vw;
-      display: flex;
-      position: absolute;
-    }
-    .stand {
-      width: 25%;
-      height: 100vh;
-    }
-    .stand-child {
-      width: 100%;
-      height: 100vh;
-      background: #000c21;
-      transition: width 500ms ease-in-out;
-    }
-    .stand-child-transition {
-      width: 0%;
-    }
-    .loader {
-      width: 100vw;
-      height: 100vh;
-      position: absolute;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      gap: 3rem;
-    }
-    .loader > div {
-      width: 10em;
-      height: 10em;
-      border-top: 4px red solid;
-      border-radius: 50%;
-      animation: rotate 1s linear infinite;
-    }
-    .loader > h1 {
-      color: #fff;
-      letter-spacing: 5px;
-      font-size: large;
-    }
-    @keyframes rotate {
-      from {
-        transform: rotate(0deg);
-      }
-      to {
-        transform: rotate(360deg);
-      }
-    }
-    .hide {
-      display: none;
-    }
-    body {
-      position: relative;
-      display: hidden;
-    }
-  </style>
-  <body>
+  <body class="body">
     <div class="loading-container">
-      <div class="stand">
-        <div class="stand-child"></div>
-      </div>
-      <div class="stand">
-        <div class="stand-child"></div>
-      </div>
-      <div class="stand">
-        <div class="stand-child"></div>
-      </div>
-      <div class="stand">
-        <div class="stand-child"></div>
-      </div>
-      <div class="loader">
-        <div class=""></div>
-        <h1 class="">LOADING</h1>
-      </div>
+      <div class="loading-animation"></div>
+      <h1 class="loading">LOADING</h1>
     </div>
-    <div id="root" class="body"></div>
+    <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
   <script>
     const global = globalThis;
     window.addEventListener("load", () => {
-      document.querySelector(".loader")?.classList.add("hide");
-      let standChild = document.querySelectorAll(".stand-child");
-      for (i = 0; i < standChild?.length; i++)
-        standChild[i]?.classList?.add("stand-child-transition");
-      document.querySelector(".loading-container")?.classList.add("hide");
-      document.querySelector("#root")?.classList.remove("body");
+      document.querySelector(".loading-container")?.classList.add("hidden");
+      document.querySelector("body")?.classList.remove("body");
     });
   </script>
 </html>
