@@ -3,12 +3,18 @@ import { useEffect, useState } from "react";
 import api from "../api";
 import {
   removeCar,
+  resetCars,
   updateAllCars,
   updateCar,
   updateCars
 } from "../redux/slices/carsSlice";
-import { updateRequest } from "../redux/slices/requestsSlice";
-import { updateUserRequests } from "../redux/slices/userRequestsSlice";
+import { resetRequests, updateRequest } from "../redux/slices/requestsSlice";
+import {
+  resetUserRequests,
+  updateUserRequests
+} from "../redux/slices/userRequestsSlice";
+import { resetUser } from "../redux/slices/userSlice";
+import { resetUsers } from "../redux/slices/usersSlice";
 
 //Login hook
 
@@ -395,4 +401,12 @@ export const useScrollPosition = () => {
     return () => window.removeEventListener("scroll", updatePosition);
   }, []);
   return scrollPosition;
+};
+
+export const logout = (dispatch: Function) => {
+  dispatch(resetUser());
+  dispatch(resetUsers());
+  dispatch(resetCars());
+  dispatch(resetUserRequests());
+  dispatch(resetRequests());
 };

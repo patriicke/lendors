@@ -11,12 +11,12 @@ const requestsSlice: any = createSlice({
     updateUserRequests: (state: any, { payload }) => {
       state.requests = payload;
     },
-    resetRequests: (state: any) => {
+    resetUserRequests: (state: any) => {
       state.requests = [];
     }
   }
 });
 
-export const { updateUserRequests, resetRequests } = requestsSlice.actions;
+export const { updateUserRequests, resetUserRequests } = requestsSlice.actions;
 
 export default requestsSlice.reducer;

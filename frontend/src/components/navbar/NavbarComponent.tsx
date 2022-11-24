@@ -15,11 +15,11 @@ import { IState } from "../../types/selectorTypes";
 import { IUser } from "../../types/userTypes";
 import { CommonContext } from "../../context";
 import { useDispatch } from "react-redux";
-import { logout } from "../../redux/slices/userSlice";
 import { resetUsers } from "../../redux/slices/usersSlice";
 import { resetRequests } from "../../redux/slices/requestsSlice";
 import { resetCars } from "../../redux/slices/carsSlice";
 import { CarObject } from "../../types/carTypes";
+import { logout } from "../../hooks";
 
 const NavbarComponent: React.FC = () => {
   const navigate = useNavigate();
@@ -218,10 +218,7 @@ const NavbarComponent: React.FC = () => {
                 tabIndex={-1}
                 id='menu-item-3'
                 onClick={() => {
-                  dispatch(logout());
-                  dispatch(resetUsers());
-                  dispatch(resetRequests());
-                  dispatch(resetCars());
+                  logout(dispatch);
                 }}
               >
                 Logout

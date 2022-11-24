@@ -17,7 +17,7 @@ const userSlice: any = createSlice({
       state.isLoggedIn = true;
       state.user = { ...payload };
     },
-    logout: (state) => {
+    resetUser: (state) => {
       state.isLoggedIn = false;
       state.user = {};
       window.location.replace(window.location.origin);
@@ -28,6 +28,6 @@ const userSlice: any = createSlice({
   }
 });
 
-export const { login, logout, update } = userSlice.actions;
+export const { login, resetUser, update } = userSlice.actions;
 
 export default userSlice.reducer;

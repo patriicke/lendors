@@ -9,7 +9,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { logout } from "../../redux/slices/userSlice";
+import { logout } from "../../hooks";
 import { IUser } from "../../types/userTypes";
 
 export interface Link {
@@ -45,13 +45,13 @@ const Sidebar: React.FC = () => {
   ];
 
   return (
-    <div className="w-full lg:w-3/12 bg-slate-200 rounded py-4 flex flex-col text-black">
-      <span className="text-2xl font-bold px-4 py-6">Account Details: </span>
-      <div className="flex flex-col">
+    <div className='w-full lg:w-3/12 bg-slate-200 rounded py-4 flex flex-col text-black'>
+      <span className='text-2xl font-bold px-4 py-6'>Account Details: </span>
+      <div className='flex flex-col'>
         {links.map((link: Link, index: number) => (
           <div
             onClick={() => {
-              index === 1 && dispatch(logout());
+              index === 1 && logout(dispatch);
               window.location.replace("/");
             }}
             key={index}
@@ -61,10 +61,10 @@ const Sidebar: React.FC = () => {
                 : "bg-inherit text-black"
             }`}
           >
-            <span className="w-1/12">
+            <span className='w-1/12'>
               <FontAwesomeIcon icon={link.icon} />
             </span>
-            <span className="px-2">{link.linkName}</span>
+            <span className='px-2'>{link.linkName}</span>
           </div>
         ))}
       </div>
