@@ -115,12 +115,12 @@ const NavbarComponent: React.FC = () => {
   ];
 
   return (
-    <div className="bg-blueish-2 h-20 w-full flex px-4 lg:px-20 2xl:px-60 items-center justify-between relative z-30">
-      <div className="flex items-center justify-center gap-3">
-        <img src={Logo} alt="Logo" className="w-10 rounded-full bg-white " />
-        <h1 className="text-white font-bold text-2xl">Lendors</h1>
+    <div className='bg-blueish-2 h-20 w-full flex px-4 lg:px-20 2xl:px-60 items-center justify-between relative z-30'>
+      <div className='flex items-center justify-center gap-3'>
+        <img src={Logo} alt='Logo' className='w-10 rounded-full bg-white ' />
+        <h1 className='text-white font-bold text-2xl'>Lendors</h1>
       </div>
-      <div className="hidden items-center justify-center gap-8 lg:flex">
+      <div className='hidden items-center justify-center gap-8 lg:flex'>
         {links.map((link, index) => (
           <Link
             to={link.href}
@@ -135,7 +135,7 @@ const NavbarComponent: React.FC = () => {
           </Link>
         ))}
       </div>
-      <div className="text-lg flex gap-8 items-center relative">
+      <div className='text-lg flex gap-8 items-center relative'>
         {icons.map(({ icon, show }, index) => {
           return index == 2 ? (
             <Link to={"/account"} key={index}>
@@ -148,20 +148,23 @@ const NavbarComponent: React.FC = () => {
               />
             </Link>
           ) : (
-            <div key={index} className={`relative`}>
+            <div
+              key={index}
+              className={`relative cursor-pointer`}
+              onClick={() => {
+                index == 0 && setSearchElement((cur) => !cur);
+                index == 1 && setShowCarts((cur: boolean) => !cur);
+                index == 3 && setMenuDropComponent(true);
+              }}
+            >
               <FontAwesomeIcon
                 icon={icon}
-                className={`text-white hover:text-redish cursor-pointer duration-500 ${
+                className={`text-white hover:text-redish duration-500 ${
                   !show && "hidden"
                 }`}
-                onClick={() => {
-                  index == 0 && setSearchElement((cur) => !cur);
-                  index == 1 && setShowCarts((cur: boolean) => !cur);
-                  index == 3 && setMenuDropComponent(true);
-                }}
               />
               {requests.length > 0 && index == 1 && !showCarts && (
-                <span className="text-white bg-redish absolute px-1.5 rounded-full -top-1.5 -right-2 text-sm">
+                <span className='text-white bg-redish absolute px-1.5 rounded-full -top-1.5 -right-2 text-sm'>
                   {requests.length}
                 </span>
               )}
@@ -179,41 +182,41 @@ const NavbarComponent: React.FC = () => {
         </button>
         {userSlice.isLoggedIn && menuDropComponent && (
           <div
-            className="absolute h-[8.5em] w-[10em] bg-white top-[1.8em] z-40 -right-1 rounded-md"
+            className='absolute h-[8.5em] w-[10em] bg-white top-[1.8em] z-40 -right-1 rounded-md'
             ref={DROP_ELEMENT}
           >
-            <div className="py-1" role="none">
+            <div className='py-1' role='none'>
               <Link
                 to={"/account"}
-                className="text-gray-700 block px-4 py-2 text-sm"
-                role="menuitem"
+                className='text-gray-700 block px-4 py-2 text-sm'
+                role='menuitem'
                 tabIndex={-1}
-                id="menu-item-0"
+                id='menu-item-0'
                 onClick={() => setMenuDropComponent(false)}
               >
                 Account settings
               </Link>
               <a
-                className="text-gray-700 block px-4 py-2 text-sm"
-                role="menuitem"
+                className='text-gray-700 block px-4 py-2 text-sm'
+                role='menuitem'
                 tabIndex={-1}
-                id="menu-item-1"
+                id='menu-item-1'
               >
                 Support
               </a>
               <a
-                className="text-gray-700 block px-4 py-2 text-sm"
-                role="menuitem"
+                className='text-gray-700 block px-4 py-2 text-sm'
+                role='menuitem'
                 tabIndex={1}
-                id="menu-item-2"
+                id='menu-item-2'
               >
                 License
               </a>
               <button
-                className="text-gray-700 block w-full px-4 py-2 text-left text-sm"
-                role="menuitem"
+                className='text-gray-700 block w-full px-4 py-2 text-left text-sm'
+                role='menuitem'
                 tabIndex={-1}
-                id="menu-item-3"
+                id='menu-item-3'
                 onClick={() => {
                   dispatch(logout());
                   dispatch(resetUsers());
@@ -233,15 +236,15 @@ const NavbarComponent: React.FC = () => {
         } w-full opacity-80 flex px-4 lg:px-20 2xl:px-60 items-center justify-between duration-150 ease-in-out`}
       >
         <input
-          type="text"
-          className="w-[98%] outline-none bg-inherit text-white text-lg"
-          placeholder="Enter car name"
+          type='text'
+          className='w-[98%] outline-none bg-inherit text-white text-lg'
+          placeholder='Enter car name'
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setSearchText(e.target.value);
           }}
           value={searchText}
         />
-        <button type="submit">
+        <button type='submit'>
           <FontAwesomeIcon
             icon={faSearch}
             className={`text-white hover:text-redish cursor-pointer duration-500 text-lg`}
@@ -256,41 +259,41 @@ const NavbarComponent: React.FC = () => {
         } w-full opacity-70 flex px-4 lg:px-20 2xl:px-60 duration-150 ease-in-out overflow-auto flex-col gap-2`}
       >
         {foundCars.length < 1 ? (
-          <div className="py-3 text-lg text-red-500 font-semibold">
-            We don't have <span className="underline"> {searchText}</span>
+          <div className='py-3 text-lg text-red-500 font-semibold'>
+            We don't have <span className='underline'> {searchText}</span>
           </div>
         ) : (
           <>
             {foundCars.map((foundCar: CarObject) => {
               return (
                 <div
-                  className="py-3 sm:py-4 cursor-pointer border-b-2"
+                  className='py-3 sm:py-4 cursor-pointer border-b-2'
                   key={foundCar.id}
                 >
-                  <div className="flex items-center space-x-4">
-                    <div className="flex-shrink-0">
+                  <div className='flex items-center space-x-4'>
+                    <div className='flex-shrink-0'>
                       <img
-                        className="w-16 h-16 rounded-full object-cover  "
+                        className='w-16 h-16 rounded-full object-cover  '
                         src={foundCar.imageUrl}
-                        alt="Neil image"
+                        alt='Neil image'
                       />
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-lg font-medium text-gray-300 truncate dark:text-white">
+                    <div className='flex-1 min-w-0'>
+                      <p className='text-lg font-medium text-gray-300 truncate dark:text-white'>
                         {foundCar.name}
                       </p>
-                      <p className="text-md text-gray-200 truncate dark:text-gray-400">
+                      <p className='text-md text-gray-200 truncate dark:text-gray-400'>
                         brand: {foundCar.brand}
                       </p>
                     </div>
-                    <div className="inline-flex items-center text-base font-semibold text-white dark:text-white p-2">
+                    <div className='inline-flex items-center text-base font-semibold text-white dark:text-white p-2'>
                       {foundCar.currency.toUpperCase() == "USD" && "$"}{" "}
                       {foundCar.price}{" "}
                       {foundCar.currency.toUpperCase() != "USD" &&
                         foundCar.currency}
                     </div>
                     <button
-                      className="text-white px-5 py-2 bg-redish rounded-md"
+                      className='text-white px-5 py-2 bg-redish rounded-md'
                       onClick={() => {
                         setSearchText("");
                         setSearchElement(false);
