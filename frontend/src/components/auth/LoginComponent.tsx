@@ -40,7 +40,7 @@ const LoginComponent: React.FC<{
           aria-label="Sign up here"
           className="text-sm font-medium leading-none underline text-gray-800 cursor-pointer"
           onClick={() => {
-            setSignup((v: boolean) => !v);
+            setSignup("signup");
           }}
         >
           {" "}

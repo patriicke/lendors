@@ -30,7 +30,7 @@ const NavbarComponent: React.FC = () => {
   const cars: CarObject[] = carsSlice.cars;
   const { requests } = userRequestsSlice;
   const dispatch = useDispatch();
-  const { currentLink, setCurrentLink, setShowCarts, showCarts } =
+  const { currentLink, setCurrentLink, setShowCarts, showCarts, setSignup } =
     useContext(CommonContext);
   const { setLoginPage } = useContext(CommonContext);
   const [searchElement, setSearchElement] = useState<boolean>(false);
@@ -176,9 +176,23 @@ const NavbarComponent: React.FC = () => {
           className={`text-white text-sm bg-redish hover:bg-red-500 p-[6px] px-2 rounded-sm flex items-center justify-center font-normal ${
             userSlice.isLoggedIn ? "hidden" : ""
           }`}
-          onClick={() => setLoginPage(true)}
+          onClick={() => {
+            setLoginPage(true);
+            setSignup("login");
+          }}
         >
           LOGIN
+        </button>
+        <button
+          className={`text-white text-sm bg-redish hover:bg-red-500 p-[6px] px-2 rounded-sm flex items-center justify-center font-normal ${
+            userSlice.isLoggedIn ? "hidden" : ""
+          }`}
+          onClick={() => {
+            setLoginPage(true);
+            setSignup("signup");
+          }}
+        >
+          SIGNUP
         </button>
         {userSlice.isLoggedIn && menuDropComponent && (
           <div
