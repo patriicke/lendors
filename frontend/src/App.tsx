@@ -40,6 +40,7 @@ const App = () => {
   const [requests, setRequests] = useState<IUser[]>([]);
   const [showCarts, setShowCarts] = useState<boolean>(false);
   const userSlice = useSelector((state: any) => state.userSlice);
+  const [signup, setSignup] = useState<string>("login");
   const user: IUser = userSlice.user;
   useEffect(() => {
     getCars(dispatch);
@@ -65,7 +66,9 @@ const App = () => {
         requests,
         setRequests,
         showCarts,
-        setShowCarts
+        setShowCarts,
+        signup,
+        setSignup
       }}
     >
       <div
@@ -76,37 +79,37 @@ const App = () => {
         <Router>
           <NavbarComponent />
           <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/gallery" element={<GalleryPage />} />
-            <Route path="/car/:carId" element={<CarPage />} />
-            <Route path="/review" element={<ReviewsPage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/contact" element={<ContactPage />} />
+            <Route path='/' element={<HomePage />} />
+            <Route path='/gallery' element={<GalleryPage />} />
+            <Route path='/car/:carId' element={<CarPage />} />
+            <Route path='/review' element={<ReviewsPage />} />
+            <Route path='/about' element={<AboutPage />} />
+            <Route path='/contact' element={<ContactPage />} />
             <Route
-              path="/account"
+              path='/account'
               element={
                 userSlice.isLoggedIn ? <UserPage /> : <Navigate to={"/"} />
               }
             />
             {userSlice.isLoggedIn && user.role == "admin" && (
               <>
-                <Route path="/admin" element={<AllCustomersPage />} />
-                <Route path="/admin/cars" element={<AllCarsPage />}></Route>
-                <Route path="/admin/new/car" element={<AddCarPage />}></Route>
+                <Route path='/admin' element={<AllCustomersPage />} />
+                <Route path='/admin/cars' element={<AllCarsPage />}></Route>
+                <Route path='/admin/new/car' element={<AddCarPage />}></Route>
                 <Route
-                  path="/admin/request/all"
+                  path='/admin/request/all'
                   element={<CarRequestPage />}
                 ></Route>
               </>
             )}
-            <Route path="*" element={<NotFoundPage />} />
+            <Route path='*' element={<NotFoundPage />} />
           </Routes>
         </Router>
       </div>
       <AuthComponent />
       <BookedCarsComponent />
       <ToastContainer
-        position="top-right"
+        position='top-right'
         autoClose={5000}
         hideProgressBar={false}
         newestOnTop={false}
@@ -115,7 +118,7 @@ const App = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="colored"
+        theme='colored'
       />
     </CommonContext.Provider>
   );
