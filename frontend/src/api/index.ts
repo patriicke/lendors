@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BACKEND_URL: string = "https://lendors-api.herokuapp.com";
+const BACKEND_URL: string = "https://lendor.onrender.com";
 
 const api = axios.create({
   baseURL: BACKEND_URL
